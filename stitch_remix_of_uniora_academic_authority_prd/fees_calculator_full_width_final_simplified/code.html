@@ -1,0 +1,211 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>JoSAA Fees Calculator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10b981", // Emerald-500
+                        "primary-dark": "#059669",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Public Sans', sans-serif; background-color: #f8f6f6; }
+        .soft-brutalist-card {
+            border: 3px solid #000;
+            box-shadow: 6px 6px 0px #000;
+            transition: transform 0.1s;
+        }
+        .soft-brutalist-input {
+            border: 2px solid #000;
+            box-shadow: 3px 3px 0px #000;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+<!-- Back Navigation (Focused View Rule) -->
+<nav class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white border-2 border-black hover:bg-slate-50">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-2xl font-black tracking-tight uppercase italic">JoSAA Fees <span class="text-primary">Calc</span></h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm font-bold px-3 py-1 bg-black text-white rounded-full">COUNSELING 2024</span>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-6 pb-20">
+<!-- Main Split Pane Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Side: Input Form -->
+<div class="lg:col-span-5 space-y-6">
+<div class="soft-brutalist-card bg-white p-8">
+<h2 class="text-xl font-black mb-6 uppercase border-b-2 border-black pb-2 flex items-center gap-2">
+<span class="material-symbols-outlined">settings_suggest</span> Selection Criteria
+                    </h2>
+<form class="space-y-6">
+<!-- Institution Type -->
+<div>
+<p class="font-bold mb-3 text-sm uppercase tracking-wider">Institution Type</p>
+<div class="flex gap-2">
+<label class="flex-1">
+<input checked="" class="sr-only peer" name="inst_type" type="radio">
+<div class="text-center py-3 border-2 border-black font-bold peer-checked:bg-primary peer-checked:text-white cursor-pointer transition-colors">IIT</div>
+</label>
+<label class="flex-1">
+<input class="sr-only peer" name="inst_type" type="radio">
+<div class="text-center py-3 border-2 border-black font-bold peer-checked:bg-primary peer-checked:text-white cursor-pointer transition-colors">NIT</div>
+</label>
+<label class="flex-1">
+<input class="sr-only peer" name="inst_type" type="radio">
+<div class="text-center py-3 border-2 border-black font-bold peer-checked:bg-primary peer-checked:text-white cursor-pointer transition-colors">IIIT</div>
+</label>
+</div>
+</div>
+<!-- Specific Institution -->
+<div class="space-y-2">
+<label class="font-bold text-sm uppercase tracking-wider block">Search Institution</label>
+<div class="relative">
+<select class="soft-brutalist-input w-full appearance-none p-4 font-medium focus:ring-0 focus:border-primary">
+<option>Indian Institute of Technology Bombay</option>
+<option>Indian Institute of Technology Delhi</option>
+<option>Indian Institute of Technology Madras</option>
+<option>Indian Institute of Technology Kharagpur</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-4 pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Category and Gender -->
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-bold text-sm uppercase tracking-wider block">Category</label>
+<select class="soft-brutalist-input w-full p-4 font-medium focus:ring-0 focus:border-primary">
+<option>General</option>
+<option>OBC-NCL</option>
+<option>SC / ST</option>
+<option>EWS</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-bold text-sm uppercase tracking-wider block">Gender</label>
+<select class="soft-brutalist-input w-full p-4 font-medium focus:ring-0 focus:border-primary">
+<option>Male</option>
+<option>Female</option>
+</select>
+</div>
+</div>
+<!-- Hostel Check -->
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-6 h-6 border-2 border-black flex items-center justify-center peer-checked:bg-black transition-colors">
+<span class="material-symbols-outlined text-white text-xs" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<span class="font-bold text-sm uppercase">Include Hostel &amp; Mess Charges</span>
+</label>
+</form>
+</div>
+<!-- Info Banner -->
+<div class="bg-primary text-black p-6 border-2 border-black shadow-[4px_4px_0px_#000] flex gap-4">
+<span class="material-symbols-outlined text-4xl">info</span>
+<p class="text-sm font-bold">Fees shown are based on 2023-24 official data and are subject to revision by the individual Senate/Board of Governors of the institutes.</p>
+</div>
+</div>
+<!-- Right Side: Dynamic Breakdown -->
+<div class="lg:col-span-7 space-y-8">
+<!-- Summary Card -->
+<div class="soft-brutalist-card bg-white overflow-hidden">
+<div class="bg-black text-white p-6 flex justify-between items-center">
+<div class="space-y-1">
+<h3 class="text-3xl font-black italic">IIT BOMBAY</h3>
+<p class="text-xs uppercase tracking-[0.2em] font-bold opacity-70">Estimated Cost per Semester</p>
+</div>
+<div class="text-right">
+<div class="text-4xl font-black text-primary">₹1,18,500</div>
+<div class="text-[10px] font-bold opacity-70 uppercase tracking-widest">Total Fees</div>
+</div>
+</div>
+<div class="p-8 space-y-6">
+<!-- Fee Breakdown -->
+<div class="space-y-4">
+<h4 class="font-black text-sm uppercase border-b-2 border-slate-100 pb-2">Institutional Breakdown</h4>
+<div class="flex justify-between items-center group py-1">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">school</span>
+</div>
+<span class="font-bold text-slate-700">Tuition Fee</span>
+</div>
+<span class="font-black">₹1,00,000</span>
+</div>
+<div class="flex justify-between items-center group py-1">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">payments</span>
+</div>
+<span class="font-bold text-slate-700">Admission &amp; Registration</span>
+</div>
+<span class="font-black">₹3,500</span>
+</div>
+<div class="flex justify-between items-center group py-1">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">bed</span>
+</div>
+<span class="font-bold text-slate-700">Hostel Rent</span>
+</div>
+<span class="font-black">₹5,000</span>
+</div>
+<div class="flex justify-between items-center group py-1">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">restaurant</span>
+</div>
+<span class="font-bold text-slate-700">Mess Advance</span>
+</div>
+<span class="font-black">₹10,000</span>
+</div>
+</div>
+<!-- Institute Image Illustration -->
+</div>
+</div>
+<!-- Comparison Section -->
+
+</div>
+</div>
+</main>
+<!-- Footer Credit -->
+<footer class="border-t-2 border-black bg-white mt-12 py-8">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="font-bold text-sm uppercase">© 2024 JoSAA Fees Calculator Project</p>
+<div class="flex gap-6">
+<a class="text-sm font-black uppercase hover:text-primary underline" href="#">Scholarships</a>
+<a class="text-sm font-black uppercase hover:text-primary underline" href="#">Education Loans</a>
+<a class="text-sm font-black uppercase hover:text-primary underline" href="#">Official JoSAA</a>
+</div>
+</div>
+</footer>
+
+
+</body></html>

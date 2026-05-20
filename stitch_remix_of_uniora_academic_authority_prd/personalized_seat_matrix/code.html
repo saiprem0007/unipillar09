@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Unipillar JoSAA - Seat Matrix</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;family=Space+Grotesk:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10b981", // Emerald Green for accents
+                        "background-light": "#ffffff",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background-color: #ffffff;
+        }
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .brutalist-border {
+            border: 2px solid #000000;
+        }
+        .brutalist-shadow {
+            box-shadow: 4px 4px 0px 0px #000000;
+        }
+        .brutalist-shadow-sm {
+            box-shadow: 2px 2px 0px 0px #000000;
+        }
+        .brutalist-shadow-hover:hover {
+            box-shadow: 6px 6px 0px 0px #000000;
+            transform: translate(-2px, -2px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light text-black">
+<!-- Header Section -->
+<header class="border-b-4 border-black p-6 sticky top-0 bg-white z-50">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div class="flex items-center gap-4">
+<div class="brutalist-border p-2 bg-primary">
+<span class="material-symbols-outlined text-white font-bold">account_balance</span>
+</div>
+<div>
+<h1 class="text-4xl font-black uppercase tracking-tight">Seat Matrix &amp; Ranks</h1>
+<p class="font-medium text-gray-600">JoSAA 2024 Counselor • Comprehensive Institutional Data</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="brutalist-border brutalist-shadow-sm px-4 py-2 hover:bg-gray-100 flex items-center gap-2 font-bold uppercase text-sm transition-all">
+<span class="material-symbols-outlined">filter_list</span> Filter
+                </button>
+<button class="brutalist-border brutalist-shadow-sm bg-black text-white px-4 py-2 hover:bg-gray-800 flex items-center gap-2 font-bold uppercase text-sm transition-all">
+<span class="material-symbols-outlined">download</span> Export PDF
+                </button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto p-6 space-y-8">
+<!-- Selection Toggle -->
+<div class="w-full">
+<div class="brutalist-border brutalist-shadow p-2 bg-black flex gap-2 overflow-x-auto">
+<label class="flex-1 min-w-[120px] cursor-pointer group">
+<input checked="" class="hidden peer" name="institute_type" type="radio"/>
+<div class="text-center py-4 font-black uppercase text-xl transition-all bg-white text-black peer-checked:bg-primary peer-checked:text-white group-hover:bg-gray-100 peer-checked:group-hover:bg-primary">
+                        IITs
+                    </div>
+</label>
+<label class="flex-1 min-w-[120px] cursor-pointer group">
+<input class="hidden peer" name="institute_type" type="radio"/>
+<div class="text-center py-4 font-black uppercase text-xl transition-all bg-white text-black peer-checked:bg-primary peer-checked:text-white group-hover:bg-gray-100 peer-checked:group-hover:bg-primary">
+                        NITs
+                    </div>
+</label>
+<label class="flex-1 min-w-[120px] cursor-pointer group">
+<input class="hidden peer" name="institute_type" type="radio"/>
+<div class="text-center py-4 font-black uppercase text-xl transition-all bg-white text-black peer-checked:bg-primary peer-checked:text-white group-hover:bg-gray-100 peer-checked:group-hover:bg-primary">
+                        IIITs
+                    </div>
+</label>
+<label class="flex-1 min-w-[120px] cursor-pointer group">
+<input class="hidden peer" name="institute_type" type="radio"/>
+<div class="text-center py-4 font-black uppercase text-xl transition-all bg-white text-black peer-checked:bg-primary peer-checked:text-white group-hover:bg-gray-100 peer-checked:group-hover:bg-primary">
+                        GFTIs
+                    </div>
+</label>
+</div>
+</div><div class="brutalist-border brutalist-shadow p-6 bg-white flex flex-col md:flex-row gap-6 items-center">
+<div class="flex items-center gap-3">
+<div class="brutalist-border p-2 bg-emerald-600">
+<span class="material-symbols-outlined text-white font-bold">person</span>
+</div>
+<div>
+<p class="text-xs font-black uppercase text-gray-500">Personalize Results</p>
+<h3 class="text-lg font-black uppercase leading-none">Your Profile</h3>
+</div>
+</div>
+<div class="flex-1 w-full grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex flex-col gap-1">
+<label class="text-[10px] font-black uppercase text-gray-600">Category</label>
+<select class="w-full brutalist-border p-2 font-bold uppercase text-sm focus:ring-0 focus:border-emerald-600">
+<option>General</option>
+<option>OBC-NCL</option>
+<option>SC</option>
+<option>ST</option>
+<option>EWS</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-[10px] font-black uppercase text-gray-600">Gender</label>
+<select class="w-full brutalist-border p-2 font-bold uppercase text-sm focus:ring-0 focus:border-emerald-600">
+<option>Gender-Neutral</option>
+<option>Female-Only</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-[10px] font-black uppercase text-gray-600">PwD Status</label>
+<select class="w-full brutalist-border p-2 font-bold uppercase text-sm focus:ring-0 focus:border-emerald-600">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Search Bar -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-black font-bold">search</span>
+</div>
+<input class="w-full brutalist-border brutalist-shadow p-6 pl-14 text-xl font-bold uppercase placeholder-gray-400 focus:outline-none focus:ring-0 focus:border-primary transition-all" placeholder="SEARCH SPECIFIC COLLEGES OR BRANCHES (E.G. IIT BOMBAY CSE)..." type="text"/>
+</div>
+<!-- College Data Cards -->
+<div class="space-y-12">
+<!-- Card 1 -->
+<div class="brutalist-border bg-white overflow-hidden brutalist-shadow-hover transition-all">
+<div class="border-b-2 border-black bg-white p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div class="flex items-center gap-4">
+<img alt="IIT Bombay Logo" class="w-16 h-16 brutalist-border p-1 bg-white" data-alt="A minimalist vector logo of the Indian Institute of Technology Bombay, featuring its iconic gear and shield emblem. The logo is rendered in a clean black and white soft-brutalist style with sharp edges and a slight drop shadow. The background is a stark, clean white that emphasizes the geometric precision of the academic seal. The lighting is flat and high-key, maintaining a professional and modern educational aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXbxFNGTd7RrjuYfLJX25ESxflHWztYAlEOnfSfPZIyGZKksRqCA-16ciBzErJARnYYajflUATSsqMtDGcgQ6i81DBkkTtN4dND1276RucFpVApq-uF5xs37s92QTyWEamUpOLQsrmtcbp00BWeanEkQtYl55zjWomdJbj2UiQANnNR1jZjNb5_SP99tXrQc9wP-t-0ifrYF-z-8Lv_l9CopmD1rrvm_AK9bIEq7xh9uq8_K_2mRhx9BqJSQMRzrCL0IEQvzl_Mrtl"/>
+<div>
+<h2 class="text-3xl font-black uppercase">Indian Institute of Technology Bombay</h2>
+<div class="flex gap-2 mt-1">
+<span class="bg-primary text-white text-xs font-bold px-2 py-0.5 brutalist-border brutalist-shadow-sm uppercase">NIRF #1</span>
+<span class="bg-gray-100 text-black text-xs font-bold px-2 py-0.5 brutalist-border uppercase">Mumbai, MH</span>
+</div>
+</div>
+</div>
+<button class="brutalist-border p-2 hover:bg-gray-100 transition-colors">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50 border-b-2 border-black">
+<th class="p-4 font-black uppercase text-sm border-r-2 border-black">Academic Program Name</th>
+<th class="p-4 font-black uppercase text-sm border-r-2 border-black text-center">Seats</th>
+<th class="p-4 font-black uppercase text-sm border-r-2 border-black text-center">Opening Rank<div class="text-[10px] font-medium lowercase text-gray-500 normal-case">(Category-wise)</div></th>
+<th class="p-4 font-black uppercase text-sm border-r-2 border-black text-center">Closing Rank<div class="text-[10px] font-medium lowercase text-gray-500 normal-case">(Category-wise)</div></th>
+<th class="p-4 font-black uppercase text-sm text-center">Avg Package</th>
+</tr>
+</thead>
+<tbody class="font-bold">
+<tr class="border-b-2 border-black hover:bg-emerald-50 transition-colors">
+<td class="p-4 border-r-2 border-black uppercase">Computer Science and Engineering (4 Years, B.Tech)</td>
+<td class="p-4 border-r-2 border-black text-center">171</td>
+<td class="p-4 border-r-2 border-black text-center">1</td>
+<td class="p-4 border-r-2 border-black text-center">
+<span class="bg-primary text-white px-3 py-1 brutalist-border brutalist-shadow-sm">67</span>
+</td>
+<td class="p-4 text-center text-primary font-black">₹32.5 LPA</td>
+</tr>
+<tr class="border-b-2 border-black hover:bg-emerald-50 transition-colors">
+<td class="p-4 border-r-2 border-black uppercase">Electrical Engineering (4 Years, B.Tech)</td>
+<td class="p-4 border-r-2 border-black text-center">103</td>
+<td class="p-4 border-r-2 border-black text-center">98</td>
+<td class="p-4 border-r-2 border-black text-center">
+<span class="bg-white text-black px-3 py-1 brutalist-border brutalist-shadow-sm">481</span>
+</td>
+<td class="p-4 text-center text-primary font-black">₹25.8 LPA</td>
+</tr>
+<tr class="hover:bg-emerald-50 transition-colors">
+<td class="p-4 border-r-2 border-black uppercase">Mechanical Engineering (4 Years, B.Tech)</td>
+<td class="p-4 border-r-2 border-black text-center">155</td>
+<td class="p-4 border-r-2 border-black text-center">549</td>
+<td class="p-4 border-r-2 border-black text-center">
+<span class="bg-white text-black px-3 py-1 brutalist-border brutalist-shadow-sm">1235</span>
+</td>
+<td class="p-4 text-center text-primary font-black">₹21.2 LPA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="brutalist-border bg-white overflow-hidden brutalist-shadow-hover transition-all">
+<div class="border-b-2 border-black bg-white p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div class="flex items-center gap-4">
+<img alt="IIT Delhi Logo" class="w-16 h-16 brutalist-border p-1 bg-white" data-alt="A graphic architectural illustration of the iconic main building of IIT Delhi, simplified into a bold soft-brutalist style. The image uses sharp black outlines against a pure white background with subtle emerald green highlights. The composition is centered and symmetrical, conveying a sense of stability and prestige. The lighting is even and bright, emphasizing the clean lines and geometric patterns of the modernist architecture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDguOWaH-sqS67vjXmlmPqFSHMRgnDXBH83s_vTcNilzcCShyN5nH1WijrK6S8g27XaHPSU2j_Plxgr361tm2AMt-vXSaWEt3gLQvQfQIHGxSYgt63ehcDOMHMeIa4BLD8oTwRUmCYswptj_o182yjb_dBLLqZHJIXzxgSI9ULpz-tuUjDN2wjKnKXeNzqzZ52zxvHuqZLz5uGZwIo4wBGU7T9wOLbRXQX4LJ3p0sOf7Pnrdvc1LL_qxuInIAXdcwotf7VMLfM5fBy3"/>
+<div>
+<h2 class="text-3xl font-black uppercase">Indian Institute of Technology Delhi</h2>
+<div class="flex gap-2 mt-1">
+<span class="bg-primary text-white text-xs font-bold px-2 py-0.5 brutalist-border brutalist-shadow-sm uppercase">NIRF #2</span>
+<span class="bg-gray-100 text-black text-xs font-bold px-2 py-0.5 brutalist-border uppercase">New Delhi, DL</span>
+</div>
+</div>
+</div>
+<button class="brutalist-border p-2 hover:bg-gray-100 transition-colors">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50 border-b-2 border-black">
+<th class="p-4 font-black uppercase text-sm border-r-2 border-black">Academic Program Name</th>
+<th class="p-4 font-black uppercase text-sm border-r-2 border-black text-center">Seats</th>
+<th class="p-4 font-black uppercase text-sm border-r-2 border-black text-center">Opening Rank<div class="text-[10px] font-medium lowercase text-gray-500 normal-case">(Category-wise)</div></th>
+<th class="p-4 font-black uppercase text-sm border-r-2 border-black text-center">Closing Rank<div class="text-[10px] font-medium lowercase text-gray-500 normal-case">(Category-wise)</div></th>
+<th class="p-4 font-black uppercase text-sm text-center">Avg Package</th>
+</tr>
+</thead>
+<tbody class="font-bold">
+<tr class="border-b-2 border-black hover:bg-emerald-50 transition-colors">
+<td class="p-4 border-r-2 border-black uppercase">Computer Science and Engineering (4 Years, B.Tech)</td>
+<td class="p-4 border-r-2 border-black text-center">99</td>
+<td class="p-4 border-r-2 border-black text-center">2</td>
+<td class="p-4 border-r-2 border-black text-center">
+<span class="bg-primary text-white px-3 py-1 brutalist-border brutalist-shadow-sm">118</span>
+</td>
+<td class="p-4 text-center text-primary font-black">₹31.2 LPA</td>
+</tr>
+<tr class="border-b-2 border-black hover:bg-emerald-50 transition-colors">
+<td class="p-4 border-r-2 border-black uppercase">Mathematics and Computing (4 Years, B.Tech)</td>
+<td class="p-4 border-r-2 border-black text-center">89</td>
+<td class="p-4 border-r-2 border-black text-center">121</td>
+<td class="p-4 border-r-2 border-black text-center">
+<span class="bg-white text-black px-3 py-1 brutalist-border brutalist-shadow-sm">312</span>
+</td>
+<td class="p-4 text-center text-primary font-black">₹28.5 LPA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-gray-50 text-center border-t border-black">
+<button class="font-black uppercase text-sm hover:underline">View All 14 Branches</button>
+</div>
+</div>
+</div>
+<!-- Pagination/Footer Stats -->
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 brutalist-border p-6 bg-white brutalist-shadow">
+<div class="font-bold uppercase">
+                Showing <span class="text-primary">1-10</span> of <span class="text-primary">23</span> IITs
+            </div>
+<div class="flex gap-2">
+<button class="brutalist-border p-2 hover:bg-gray-100 disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="brutalist-border px-4 py-2 bg-black text-white font-black">1</button>
+<button class="brutalist-border px-4 py-2 hover:bg-gray-100 font-black">2</button>
+<button class="brutalist-border px-4 py-2 hover:bg-gray-100 font-black">3</button>
+<button class="brutalist-border p-2 hover:bg-gray-100">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Bottom Spacing -->
+<footer class="p-12 text-center opacity-50 font-bold uppercase text-xs">
+        Data updated for JoSAA 2024 Rounds. Seat counts are indicative.
+    </footer>
+</body></html>

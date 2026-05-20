@@ -1,0 +1,439 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>AcademiaPro | Authentication</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;family=DM+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-background": "#111a36",
+                        "surface-dim": "#d0d9fd",
+                        "surface-tint": "#565d79",
+                        "secondary": "#5c5f60",
+                        "secondary-container": "#dee0e1",
+                        "background-warm": "#FDFBF7",
+                        "background": "#faf8ff",
+                        "surface": "#faf8ff",
+                        "tertiary-fixed": "#ffe088",
+                        "tertiary-container": "#cca830",
+                        "tertiary": "#735c00",
+                        "surface-bright": "#faf8ff",
+                        "on-primary-fixed-variant": "#3e4660",
+                        "primary-fixed-dim": "#bec5e5",
+                        "secondary-fixed-dim": "#c4c7c8",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#131a33",
+                        "surface-container-low": "#f2f3ff",
+                        "on-tertiary-container": "#4f3e00",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eff0ff",
+                        "on-secondary-container": "#606364",
+                        "surface-container-high": "#e3e7ff",
+                        "surface-variant": "#dbe1ff",
+                        "on-primary-container": "#7b83a0",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#241a00",
+                        "outline": "#76767e",
+                        "on-surface-variant": "#45464d",
+                        "tertiary-fixed-dim": "#e9c349",
+                        "outline-variant": "#c6c6ce",
+                        "primary": "#000000",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "inverse-primary": "#bec5e5",
+                        "surface-white": "#FFFFFF",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#e1e3e4",
+                        "on-secondary-fixed-variant": "#444748",
+                        "primary-container": "#131a33",
+                        "surface-container-highest": "#dbe1ff",
+                        "on-surface": "#111a36",
+                        "on-secondary-fixed": "#191c1d",
+                        "primary-fixed": "#dbe1ff",
+                        "inverse-surface": "#262f4c",
+                        "surface-container": "#ebedff",
+                        "muted-slate": "#8D99AE",
+                        "accent-emerald": "#10B981"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1200px",
+                        "gutter": "24px"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Inter", "DM Sans"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Playfair Display", "Space Grotesk"],
+                        "headline-md": ["Playfair Display"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "label-lg": ["Inter"],
+                        "display-lg": ["Playfair Display"],
+                        "body-md": ["Inter", "DM Sans"],
+                        "space": ["Space Grotesk"],
+                        "dm": ["DM Sans"]
+                    },
+                    fontSize: {
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "1.2", "fontWeight": "500" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-lg": ["14px", { "lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .brutal-card {
+            border: 2px solid #000000;
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .brutal-card:hover {
+            box-shadow: 8px 8px 0px 0px rgba(16, 185, 129, 0.2);
+            transform: translate(-2px, -2px);
+        }
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .emerald-glow {
+            box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.3);
+        }
+        .mesh-bg {
+            background-color: #0A0A0A;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(161, 71%, 38%, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(161, 71%, 38%, 0.1) 0px, transparent 50%);
+        }
+        .glow-blob {
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+        .custom-clamp {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+        }
+    </style>
+</head>
+<body class="bg-background-warm font-body-md text-on-background selection:bg-accent-emerald selection:text-white">
+<!-- TopNavBar (Fixed / Hidden on Mobile context if needed, but per prompt sticky glass) -->
+<nav class="glass-nav sticky top-0 z-50 w-full h-20 px-margin-desktop flex items-center justify-between border-b border-white/5">
+<div class="flex items-center gap-2">
+<span class="font-space text-headline-md font-bold text-white tracking-tight">UNIPillAR</span>
+<span class="text-accent-emerald material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-lg text-white/70 hover:text-accent-emerald transition-colors" href="#">Predictor</a>
+<a class="font-label-lg text-white/70 hover:text-accent-emerald transition-colors" href="#">Mentors</a>
+<a class="font-label-lg text-white/70 hover:text-accent-emerald transition-colors" href="#">Seat Matrix</a>
+<button class="bg-accent-emerald text-primary px-6 py-2 rounded-lg font-label-lg hover:brightness-110 transition-all">Support</button>
+</div>
+</nav>
+<main class="min-h-[calc(100vh-80px)] grid grid-cols-1 md:grid-cols-2">
+<!-- Left Section: Branding & Mission -->
+<section class="relative overflow-hidden mesh-bg p-margin-mobile md:p-20 flex flex-col justify-center text-white">
+<!-- Glow Blobs -->
+<div class="glow-blob absolute top-1/4 -left-20 w-64 h-64 bg-accent-emerald rounded-full"></div>
+<div class="glow-blob absolute bottom-1/4 -right-20 w-80 h-80 bg-primary-container rounded-full"></div>
+<div class="relative z-10 space-y-8 max-w-xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full">
+<span class="w-2 h-2 rounded-full bg-accent-emerald animate-pulse"></span>
+<span class="text-label-md font-medium text-white/80">LIVE: JoSAA 2024 Counselling Portal</span>
+</div>
+<h1 class="font-space font-bold leading-tight custom-clamp">
+                    Make smarter <span class="text-accent-emerald">JoSAA</span> decisions with real analytics.
+                </h1>
+<p class="font-dm text-body-lg text-white/60">
+                    No student should regret a choice made in ignorance. Access institutional-grade data, mentor insights, and real-time predictor models.
+                </p>
+<!-- Stats/Features Bento -->
+<div class="grid grid-cols-2 gap-4 mt-12">
+<div class="brutal-card bg-white/5 backdrop-blur-md p-6 border-white/10">
+<span class="material-symbols-outlined text-accent-emerald mb-2">insights</span>
+<h4 class="font-space text-headline-md font-bold">98.2%</h4>
+<p class="text-label-md text-white/40">Prediction Accuracy</p>
+</div>
+<div class="brutal-card bg-white/5 backdrop-blur-md p-6 border-white/10">
+<span class="material-symbols-outlined text-accent-emerald mb-2">group</span>
+<h4 class="font-space text-headline-md font-bold">500+</h4>
+<p class="text-label-md text-white/40">Expert Mentors</p>
+</div>
+</div>
+<div class="flex flex-wrap gap-3 pt-6">
+<span class="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-label-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-emerald text-[18px]">verified</span> College Predictor
+                    </span>
+<span class="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-label-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-emerald text-[18px]">pie_chart</span> Seat Matrix
+                    </span>
+<span class="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-label-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-emerald text-[18px]">calculate</span> Fees Calculator
+                    </span>
+</div>
+</div>
+</section>
+<!-- Right Section: Auth Form -->
+<section class="bg-background-warm flex items-center justify-center p-margin-mobile md:p-20">
+<div class="w-full max-w-[480px] brutal-card bg-surface-white p-8 md:p-10 space-y-8" id="auth-container">
+<!-- Tab Switching -->
+<div class="flex border-b border-outline-variant">
+<button class="flex-1 py-4 font-space font-bold text-headline-md border-b-4 border-primary transition-all" id="tab-login" onclick="switchTab('login')">Login</button>
+<button class="flex-1 py-4 font-space font-bold text-headline-md border-b-4 border-transparent text-on-surface-variant hover:text-primary transition-all" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+</div>
+<!-- Login View -->
+<div class="space-y-6" id="view-login">
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="font-label-lg block text-on-surface">Email or Mobile Number</label>
+<input class="w-full h-12 px-4 border-2 border-outline-variant rounded-xl focus:border-primary focus:ring-0 font-dm transition-all" placeholder="name@college.edu" type="text">
+</div>
+<div class="space-y-2 relative">
+<label class="font-label-lg block text-on-surface">Password</label>
+<input class="w-full h-12 px-4 border-2 border-outline-variant rounded-xl focus:border-primary focus:ring-0 font-dm transition-all" id="login-pass" placeholder="••••••••" type="password">
+<button class="absolute right-4 top-[38px] text-muted-slate hover:text-primary transition-colors" onclick="togglePass('login-pass')">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+<div class="flex items-center justify-between">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="w-5 h-5 rounded border-2 border-outline-variant text-primary focus:ring-primary" type="checkbox">
+<span class="text-label-md text-on-surface-variant">Remember me</span>
+</label>
+<button class="text-label-md font-bold text-primary hover:underline" onclick="switchState('forgot')">Forgot password?</button>
+</div>
+</div>
+<button class="w-full h-14 bg-primary text-white font-space font-bold rounded-xl brutal-card emerald-glow active:translate-y-1 transition-all" onclick="switchState('otp')">
+                        Sign In
+                    </button>
+<div class="relative py-4">
+<div class="absolute inset-0 flex items-center"><div class="w-full border-t border-outline-variant"></div></div>
+<div class="relative flex justify-center text-label-md uppercase"><span class="bg-surface-white px-4 text-on-surface-variant">Or continue with</span></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 h-12 border-2 border-outline-variant rounded-xl hover:bg-surface-container transition-all">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdTYCA8xHweV20JaHqbThe3znSZUYOCnIcecz7a_NJJiGxYyMs_CH22Sr0PYGrWpVO4r9XoElCabngrpuE7Cv8LntczVSTvBN2FZDVczHu1MfpYgcVCcWv_pWS4LkK1hEXjmtZA86Ui3qH4qKMJj93tYjZ_ZYfzAwJRFngfNzysaWRxZ4kmDSTq0VfnO1RFNoxTtfI5b8Fi1lPcmqDZi_WwGk5pFaEHtI6Qn6CGMibwsPq3x7g0jAstqqpi6Bhjr_JcYR_J2jt3qQ">
+<span class="font-label-lg">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-12 border-2 border-outline-variant rounded-xl hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">ios</span>
+<span class="font-label-lg">Apple</span>
+</button>
+</div>
+</div>
+<!-- Sign Up View (Hidden) -->
+<div class="hidden space-y-6" id="view-signup">
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="font-label-lg block text-on-surface">Full Name</label>
+<input class="w-full h-12 px-4 border-2 border-outline-variant rounded-xl focus:border-primary focus:ring-0 font-dm transition-all" placeholder="Rahul Sharma" type="text">
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-label-lg block text-on-surface">Email</label>
+<input class="w-full h-12 px-4 border-2 border-outline-variant rounded-xl focus:border-primary focus:ring-0 font-dm" placeholder="rahul@example.com" type="email">
+</div>
+<div class="space-y-2">
+<label class="font-label-lg block text-on-surface">Mobile</label>
+<input class="w-full h-12 px-4 border-2 border-outline-variant rounded-xl focus:border-primary focus:ring-0 font-dm" placeholder="+91 00000 00000" type="tel">
+</div>
+</div>
+<div class="space-y-2 relative">
+<label class="font-label-lg block text-on-surface">Password</label>
+<input class="w-full h-12 px-4 border-2 border-outline-variant rounded-xl focus:border-primary focus:ring-0 font-dm transition-all" id="signup-pass" oninput="checkStrength(this.value)" placeholder="••••••••" type="password">
+<div class="flex gap-1 mt-2">
+<div class="h-1 flex-1 bg-outline-variant rounded" id="strength-1"></div>
+<div class="h-1 flex-1 bg-outline-variant rounded" id="strength-2"></div>
+<div class="h-1 flex-1 bg-outline-variant rounded" id="strength-3"></div>
+</div>
+<span class="text-[10px] uppercase font-bold text-muted-slate" id="strength-text">Password Strength</span>
+</div>
+<div class="space-y-2">
+<label class="font-label-lg block text-on-surface">Confirm Password</label>
+<input class="w-full h-12 px-4 border-2 border-outline-variant rounded-xl focus:border-primary focus:ring-0 font-dm transition-all" placeholder="••••••••" type="password">
+</div>
+</div>
+<button class="w-full h-14 bg-primary text-white font-space font-bold rounded-xl brutal-card active:translate-y-1 transition-all" onclick="switchState('otp')">
+                        Create Account
+                    </button>
+</div>
+<!-- OTP State (Hidden) -->
+<div class="hidden space-y-8 text-center" id="view-otp">
+<div class="space-y-2">
+<h3 class="font-space font-bold text-headline-md">Verify Identity</h3>
+<p class="text-label-md text-on-surface-variant">We sent a 6-digit code to +91 ******42</p>
+</div>
+<div class="flex justify-between gap-2 px-4">
+<input class="w-12 h-14 text-center text-headline-md font-bold border-2 border-outline-variant rounded-xl focus:border-accent-emerald focus:ring-0 bg-surface-container-low transition-all" maxlength="1" type="text">
+<input class="w-12 h-14 text-center text-headline-md font-bold border-2 border-outline-variant rounded-xl focus:border-accent-emerald focus:ring-0 bg-surface-container-low transition-all" maxlength="1" type="text">
+<input class="w-12 h-14 text-center text-headline-md font-bold border-2 border-outline-variant rounded-xl focus:border-accent-emerald focus:ring-0 bg-surface-container-low transition-all" maxlength="1" type="text">
+<input class="w-12 h-14 text-center text-headline-md font-bold border-2 border-outline-variant rounded-xl focus:border-accent-emerald focus:ring-0 bg-surface-container-low transition-all" maxlength="1" type="text">
+<input class="w-12 h-14 text-center text-headline-md font-bold border-2 border-outline-variant rounded-xl focus:border-accent-emerald focus:ring-0 bg-surface-container-low transition-all" maxlength="1" type="text">
+<input class="w-12 h-14 text-center text-headline-md font-bold border-2 border-outline-variant rounded-xl focus:border-accent-emerald focus:ring-0 bg-surface-container-low transition-all" maxlength="1" type="text">
+</div>
+<div class="space-y-4">
+<button class="w-full h-14 bg-accent-emerald text-white font-space font-bold rounded-xl brutal-card active:translate-y-1 transition-all">
+                            Verify &amp; Continue
+                        </button>
+<div class="flex items-center justify-center gap-2">
+<span class="text-label-md text-on-surface-variant">Resend code in</span>
+<span class="text-label-md font-bold text-primary">00:59</span>
+</div>
+</div>
+<button class="text-label-md font-bold text-muted-slate hover:text-primary" onclick="resetAuth()">Change Contact Info</button>
+</div>
+<!-- Forgot Password State (Hidden) -->
+<div class="hidden space-y-6" id="view-forgot">
+<div class="space-y-2">
+<h3 class="font-space font-bold text-headline-md">Recover Access</h3>
+<p class="text-label-md text-on-surface-variant">Enter your registered email to receive a recovery link.</p>
+</div>
+<div class="space-y-2">
+<label class="font-label-lg block text-on-surface">Email Address</label>
+<input class="w-full h-12 px-4 border-2 border-outline-variant rounded-xl focus:border-primary focus:ring-0 font-dm transition-all" placeholder="name@college.edu" type="email">
+</div>
+<button class="w-full h-14 bg-primary text-white font-space font-bold rounded-xl brutal-card active:translate-y-1 transition-all">
+                        Send Recovery Link
+                    </button>
+<button class="w-full text-label-md font-bold text-muted-slate hover:text-primary" onclick="resetAuth()">Back to Login</button>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-background-warm border-t border-outline-variant py-12 px-margin-desktop">
+<div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter">
+<div class="space-y-4 md:col-span-2">
+<h3 class="font-space text-headline-lg font-bold">UNIPillAR</h3>
+<p class="font-headline-md italic max-w-sm text-on-surface-variant/80">"Empowering students to build their futures on the foundation of data and informed choice."</p>
+</div>
+<div class="space-y-2">
+<h4 class="font-label-lg uppercase tracking-widest text-muted-slate">Quick Links</h4>
+<nav class="flex flex-col gap-2">
+<a class="text-body-md hover:text-accent-emerald transition-colors" href="#">Counseling Guide</a>
+<a class="text-body-md hover:text-accent-emerald transition-colors" href="#">Mentor Network</a>
+<a class="text-body-md hover:text-accent-emerald transition-colors" href="#">Privacy Policy</a>
+</nav>
+</div>
+<div class="space-y-2">
+<h4 class="font-label-lg uppercase tracking-widest text-muted-slate">Support</h4>
+<p class="text-body-md">1800 137 8055</p>
+<p class="text-body-md">unipillar@gmail.com</p>
+</div>
+</div>
+<div class="max-w-container-max mx-auto mt-12 pt-8 border-t border-outline-variant flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-label-md text-muted-slate">© 2024 AcademiaPro. Empowering the next generation of Indian engineers.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-muted-slate hover:text-primary cursor-pointer transition-colors">face_nod</span>
+<span class="material-symbols-outlined text-muted-slate hover:text-primary cursor-pointer transition-colors">share</span>
+</div>
+</div>
+</footer>
+<script>
+        function switchTab(tab) {
+            const loginView = document.getElementById('view-login');
+            const signupView = document.getElementById('view-signup');
+            const forgotView = document.getElementById('view-forgot');
+            const otpView = document.getElementById('view-otp');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
+
+            // Reset all hidden views
+            forgotView.classList.add('hidden');
+            otpView.classList.add('hidden');
+
+            if (tab === 'login') {
+                loginView.classList.remove('hidden');
+                signupView.classList.add('hidden');
+                tabLogin.classList.replace('border-transparent', 'border-primary');
+                tabLogin.classList.replace('text-on-surface-variant', 'text-primary');
+                tabSignup.classList.replace('border-primary', 'border-transparent');
+                tabSignup.classList.replace('text-primary', 'text-on-surface-variant');
+            } else {
+                signupView.classList.remove('hidden');
+                loginView.classList.add('hidden');
+                tabSignup.classList.replace('border-transparent', 'border-primary');
+                tabSignup.classList.replace('text-on-surface-variant', 'text-primary');
+                tabLogin.classList.replace('border-primary', 'border-transparent');
+                tabLogin.classList.replace('text-primary', 'text-on-surface-variant');
+            }
+        }
+
+        function switchState(state) {
+            const views = ['view-login', 'view-signup', 'view-forgot', 'view-otp'];
+            views.forEach(v => document.getElementById(v).classList.add('hidden'));
+            document.getElementById('view-' + state).classList.remove('hidden');
+            
+            // Hide tabs if in OTP or Forgot state for focus
+            if(state === 'otp' || state === 'forgot') {
+                document.getElementById('tab-login').parentElement.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function resetAuth() {
+            document.getElementById('tab-login').parentElement.classList.remove('opacity-0', 'pointer-events-none');
+            switchTab('login');
+        }
+
+        function togglePass(id) {
+            const el = document.getElementById(id);
+            el.type = el.type === 'password' ? 'text' : 'password';
+        }
+
+        function checkStrength(val) {
+            const bars = [document.getElementById('strength-1'), document.getElementById('strength-2'), document.getElementById('strength-3')];
+            const text = document.getElementById('strength-text');
+            
+            bars.forEach(b => b.classList.replace('bg-accent-emerald', 'bg-outline-variant'));
+            bars.forEach(b => b.classList.replace('bg-error', 'bg-outline-variant'));
+
+            if(val.length > 0 && val.length < 6) {
+                bars[0].classList.replace('bg-outline-variant', 'bg-error');
+                text.innerText = "Too Weak";
+            } else if(val.length >= 6 && val.length < 10) {
+                bars[0].classList.replace('bg-outline-variant', 'bg-accent-emerald');
+                bars[1].classList.replace('bg-outline-variant', 'bg-accent-emerald');
+                text.innerText = "Good";
+            } else if(val.length >= 10) {
+                bars.forEach(b => b.classList.replace('bg-outline-variant', 'bg-accent-emerald'));
+                text.innerText = "Strong";
+            } else {
+                text.innerText = "Password Strength";
+            }
+        }
+
+        // OTP Auto Focus
+        const otpInputs = document.querySelectorAll('#view-otp input');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('keyup', (e) => {
+                if (e.key >= 0 && e.key <= 9) {
+                    if (index < otpInputs.length - 1) otpInputs[index + 1].focus();
+                } else if (e.key === 'Backspace') {
+                    if (index > 0) otpInputs[index - 1].focus();
+                }
+            });
+        });
+    </script>
+</body></html>

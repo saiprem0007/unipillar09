@@ -1,0 +1,230 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>JoSAA Portal | Institute Fees Calculator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#10b981", // Emerald accent for soft-brutalist feel
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#1e0f24",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px", 
+                        "lg": "0px", 
+                        "xl": "0px", 
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Soft Brutalist overrides */
+        .brutalist-card {
+            border: 3px solid #1e0f24;
+            box-shadow: 6px 6px 0px #1e0f24;
+        }
+        .brutalist-input {
+            border: 2px solid #1e0f24;
+            border-radius: 0px !important;
+        }
+        .brutalist-input:focus {
+            ring: 0;
+            border-color: #10b981;
+            box-shadow: 4px 4px 0px #10b981;
+        }
+    </style>
+</head>
+<body class="bg-background-light font-display text-[#1e0f24]">
+<div class="flex min-h-screen">
+<!-- Sidebar Navigation (Shared Component Integration) -->
+<aside class="w-80 bg-[#1e0f24] text-white flex-shrink-0">
+<div class="flex h-full flex-col justify-between p-6">
+<div class="flex flex-col gap-8">
+<div class="flex flex-col border-b border-[#40204b] pb-6">
+<h1 class="text-xl font-black uppercase tracking-tighter">JoSAA Portal</h1>
+<p class="text-[#bd8dce] text-xs font-bold uppercase tracking-widest">Counseling 2024</p>
+</div>
+<nav class="flex flex-col gap-4">
+<div class="flex items-center gap-4 px-4 py-3 hover:bg-[#40204b] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-white">cardboard</span>
+<p class="text-sm font-bold uppercase">Dashboard</p>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 bg-primary text-[#1e0f24] cursor-default border-2 border-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">calculate</span>
+<p class="text-sm font-black uppercase">Fees Calculator</p>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 hover:bg-[#40204b] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-white">cable</span>
+<p class="text-sm font-bold uppercase">Seat Matrix</p>
+</div>
+<div class="flex items-center gap-4 px-4 py-3 hover:bg-[#40204b] transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-white">arrow_right</span>
+<p class="text-sm font-bold uppercase text-nowrap">Opening &amp; Closing Ranks</p>
+</div>
+</nav>
+</div>
+<div class="mt-auto">
+<button class="w-full py-4 bg-primary text-[#1e0f24] font-black uppercase border-4 border-[#1e0f24] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_#bd8dce] transition-all">
+                        Help Desk
+                    </button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-8 lg:p-12 overflow-y-auto">
+<header class="mb-12">
+<h2 class="text-5xl font-black uppercase tracking-tighter mb-4 text-[#1e0f24]">
+                    Institute Fees <span class="text-primary underline decoration-8 underline-offset-8">Calculator</span>
+</h2>
+<p class="text-lg font-medium text-gray-600 max-w-2xl">
+                    Get an accurate estimate of your semester-wise expenses. Select your institute and academic details to see the breakdown of tuition, mess, and hostel charges.
+                </p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<!-- Input Form (Left) -->
+<section class="lg:col-span-5 brutalist-card bg-white p-8">
+<h3 class="text-xl font-black uppercase mb-8 border-b-4 border-[#1e0f24] pb-2 inline-block">Configurations</h3>
+<form class="space-y-8">
+<!-- Institute Type -->
+<div>
+<p class="text-xs font-black uppercase tracking-widest mb-3">1. Select Institute Type</p>
+<div class="grid grid-cols-3 gap-0 border-2 border-[#1e0f24]">
+<label class="cursor-pointer">
+<input checked="" class="peer hidden" name="type" type="radio">
+<div class="py-3 text-center font-black uppercase text-sm peer-checked:bg-[#1e0f24] peer-checked:text-white transition-colors">IIT</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer hidden" name="type" type="radio">
+<div class="py-3 text-center font-black uppercase text-sm border-l-2 border-[#1e0f24] peer-checked:bg-[#1e0f24] peer-checked:text-white transition-colors">NIT</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer hidden" name="type" type="radio">
+<div class="py-3 text-center font-black uppercase text-sm border-l-2 border-[#1e0f24] peer-checked:bg-[#1e0f24] peer-checked:text-white transition-colors">IIIT</div>
+</label>
+</div>
+</div>
+<!-- Specific Institution -->
+<div>
+<label class="text-xs font-black uppercase tracking-widest mb-3 block">2. Institution Name</label>
+<select class="w-full brutalist-input h-14 px-4 font-bold text-[#1e0f24]">
+<option>IIT Bombay (Mumbai)</option>
+<option>IIT Delhi</option>
+<option>IIT Madras</option>
+<option>IIT Kanpur</option>
+</select>
+</div>
+<!-- Category -->
+<div>
+<label class="text-xs font-black uppercase tracking-widest mb-3 block">3. Social Category</label>
+<select class="w-full brutalist-input h-14 px-4 font-bold text-[#1e0f24]">
+<option>General / OBC (Income &gt; 5L)</option>
+<option>General / OBC (Income 1L - 5L)</option>
+<option>General / OBC (Income &lt; 1L)</option>
+<option>SC / ST / PwD</option>
+</select>
+</div><div class=""><label class="text-xs font-black uppercase tracking-widest mb-3 block">4. Annual Family Income</label><select class="w-full brutalist-input h-14 px-4 font-bold text-[#1e0f24]"><option>Below 1 Lakh</option><option>1 Lakh - 5 Lakh</option><option>Above 5 Lakh</option></select></div>
+<!-- Program -->
+
+<button class="w-full py-4 bg-primary text-[#1e0f24] font-black uppercase border-4 border-[#1e0f24] hover:shadow-[8px_8px_0px_#1e0f24] transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-none" type="button">
+                            Recalculate Estimate
+                        </button>
+</form>
+</section>
+<!-- Results Display (Right) -->
+<section class="lg:col-span-7 space-y-6">
+<div class="brutalist-card bg-primary p-8">
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="text-xs font-black uppercase tracking-widest text-[#1e0f24] opacity-70">Estimated Total (1st Semester)</h3>
+<p class="text-6xl font-black text-[#1e0f24]">₹1,24,500</p>
+</div>
+<span class="material-symbols-outlined text-5xl">receipt_long</span>
+</div>
+<div class="bg-white/30 p-4 border border-[#1e0f24] font-bold text-sm">
+                            *This is an estimate based on 2023-24 data. Final fees may vary based on institute updates.
+                        </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="brutalist-card bg-white p-6">
+<h4 class="text-xs font-black uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">school</span> Tuition &amp; Academic
+                            </h4>
+<div class="space-y-3">
+<div class="flex justify-between border-b border-gray-100 pb-2">
+<span class="text-gray-500 font-medium">Tuition Fee</span>
+<span class="font-black">₹1,00,000</span>
+</div>
+<div class="flex justify-between border-b border-gray-100 pb-2">
+<span class="text-gray-500 font-medium">Examination Fee</span>
+<span class="font-black">₹2,500</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-500 font-medium">Registration</span>
+<span class="font-black">₹1,500</span>
+</div>
+</div>
+</div>
+<div class="brutalist-card bg-white p-6">
+<h4 class="text-xs font-black uppercase tracking-widest mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">hotel</span> Hostel &amp; Mess
+                            </h4>
+<div class="space-y-3">
+<div class="flex justify-between border-b border-gray-100 pb-2">
+<span class="text-gray-500 font-medium">Hostel Rent</span>
+<span class="font-black">₹8,000</span>
+</div>
+<div class="flex justify-between border-b border-gray-100 pb-2">
+<span class="text-gray-500 font-medium">Mess Advance</span>
+<span class="font-black">₹12,000</span>
+</div>
+<div class="flex justify-between">
+<span class="text-gray-500 font-medium">Electricity/Water</span>
+<span class="font-black">₹500</span>
+</div>
+</div>
+</div>
+</div>
+<!-- One-time/Other Fees -->
+<div class="brutalist-card bg-white p-8">
+<h4 class="text-xs font-black uppercase tracking-widest mb-6 border-b-2 border-primary inline-block">One-time / Caution Deposits</h4>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-background-light border-2 border-dashed border-[#1e0f24]">
+<div>
+<p class="font-black uppercase text-sm">Institute Caution Deposit</p>
+<p class="text-xs text-gray-500">Refundable upon graduation</p>
+</div>
+<p class="text-xl font-black">₹5,000</p>
+</div>
+<div class="flex items-center justify-between p-4 bg-background-light border-2 border-dashed border-[#1e0f24]">
+<div>
+<p class="font-black uppercase text-sm">Library Deposit</p>
+<p class="text-xs text-gray-500">Refundable</p>
+</div>
+<p class="text-xl font-black">₹2,000</p>
+</div>
+</div>
+</div>
+<!-- Visual Accent Card -->
+
+</section>
+</div>
+</main>
+</div>
+
+
+</body></html>

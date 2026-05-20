@@ -1,0 +1,303 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Unipillar - JoSAA College Predictor</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Space+Grotesk:wght@400;600;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#059669",
+              "background-light": "#f5f8f7",
+              "background-dark": "#0f231d",
+              "unipillar-bg": "#F9F9F9",
+              "unipillar-surface": "#FFFFFF",
+              "unipillar-text": "#0A0A0A",
+              "unipillar-muted": "#878787",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"],
+              "body": ["DM Sans", "sans-serif"],
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "12px",
+              "xl": "1.5rem",
+              "full": "9999px",
+              "button": "8px",
+            },
+            boxShadow: {
+              "brutal": "4px 4px 0px #0A0A0A",
+              "brutal-hover": "6px 6px 0px #0A0A0A",
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: theme('colors.unipillar-bg');
+            color: theme('colors.unipillar-text');
+        }
+        h1, h2, h3, h4, h5, h6, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .brutal-border {
+            border: 2px solid theme('colors.unipillar-text');
+        }
+        .rank-input {
+            border-bottom: 2px solid theme('colors.unipillar-muted');
+            transition: border-bottom-width 0.2s, border-color 0.2s;
+        }
+        .rank-input:focus {
+            outline: none;
+            border-bottom: 4px solid theme('colors.unipillar-text');
+        }
+        
+        /* Hide scrollbar for clean look but allow scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-unipillar-bg text-unipillar-text h-screen flex overflow-hidden">
+<!-- Split Layout Container -->
+<div class="flex w-full h-full">
+<!-- Left Pane: Sticky Input Form (40%) -->
+<div class="w-full lg:w-[40%] h-full flex flex-col justify-center px-8 lg:px-16 border-r-2 border-unipillar-text bg-unipillar-surface shadow-brutal z-10 relative overflow-y-auto no-scrollbar">
+<!-- Minimal Back Button -->
+<a class="absolute top-8 left-8 flex items-center gap-2 text-unipillar-muted hover:text-unipillar-text transition-colors group" href="#">
+<span class="material-symbols-outlined text-2xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
+<span class="font-body font-medium uppercase tracking-[1px] text-[13px]">Dashboard</span>
+</a>
+<div class="max-w-md mx-auto w-full space-y-10 py-20 lg:py-0">
+<div class="space-y-4">
+<h1 class="font-display font-bold text-5xl lg:text-6xl tracking-tight text-unipillar-text leading-tight">
+                        JoSAA<br>Predictor
+                    </h1>
+<p class="font-body text-unipillar-muted text-lg">
+                        Enter your rank and details to see your admission odds.
+                    </p>
+</div>
+<form class="space-y-6">
+<!-- Exam Type Selection -->
+<div class="space-y-2">
+<label class="font-body font-medium uppercase tracking-[1px] text-[13px] text-unipillar-muted block">Exam Type</label>
+<div class="grid grid-cols-2 gap-2">
+<label class="cursor-pointer">
+<input checked="" class="hidden peer" name="exam" type="radio">
+<div class="text-center py-2 px-4 brutal-border rounded-button font-display font-bold text-sm peer-checked:bg-primary peer-checked:text-white transition-colors">JEE Main</div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="exam" type="radio">
+<div class="text-center py-2 px-4 brutal-border rounded-button font-display font-bold text-sm peer-checked:bg-primary peer-checked:text-white transition-colors">JEE Advanced</div>
+</label>
+</div>
+</div>
+<!-- Rank Input -->
+<div class="space-y-2">
+<label class="font-body font-medium uppercase tracking-[1px] text-[13px] text-unipillar-muted block" for="rank">
+                            CRL / Category Rank
+                        </label>
+<input class="w-full bg-unipillar-bg font-display font-bold text-[64px] leading-none text-unipillar-text placeholder:text-unipillar-muted/30 rank-input pb-2 rounded-t-lg px-4 pt-4 border-0 border-b-2 ring-0 focus:ring-0 focus:border-unipillar-text focus:border-b-4 transition-all" id="rank" placeholder="e.g. 1200" type="text">
+</div>
+<!-- Category/Quota Selection -->
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-body font-medium uppercase tracking-[1px] text-[11px] text-unipillar-muted block">Category</label>
+<select class="w-full bg-unipillar-surface border-2 border-unipillar-text font-body font-medium text-sm rounded-button focus:ring-0 focus:border-unipillar-text">
+<option>General</option>
+<option>OBC-NCL</option>
+<option>SC</option>
+<option>ST</option>
+<option>EWS</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-body font-medium uppercase tracking-[1px] text-[11px] text-unipillar-muted block">Gender</label>
+<select class="w-full bg-unipillar-surface border-2 border-unipillar-text font-body font-medium text-sm rounded-button focus:ring-0 focus:border-unipillar-text">
+<option>Gender-Neutral</option>
+<option>Female-Only</option>
+</select>
+</div>
+</div>
+<!-- Branch Selection -->
+<div class="space-y-2">
+<label class="font-body font-medium uppercase tracking-[1px] text-[13px] text-unipillar-muted block">prefered&nbsp;Branches
+                        </label>
+<select class="w-full bg-unipillar-surface border-2 border-unipillar-text p-3 font-display font-bold text-sm rounded-button appearance-none cursor-pointer focus:outline-none">
+<option>Computer Science</option>
+<option>Electronics</option>
+<option>Mechanical</option>
+<option>Electrical</option>
+<option>Civil</option>
+</select>
+</div>
+<!-- Submit CTA -->
+<button class="w-full py-4 bg-primary text-unipillar-surface font-display font-semibold text-[15px] rounded-button brutal-border shadow-brutal hover:shadow-brutal-hover hover:-translate-y-0.5 hover:-translate-x-0.5 transition-all uppercase tracking-wide" type="button">
+                        Analyze JoSAA Options
+                    </button>
+</form>
+</div>
+</div>
+<!-- Right Pane: Scrollable Results (60%) -->
+<div class="hidden lg:flex w-[60%] h-full bg-unipillar-bg flex-col overflow-y-auto relative scroll-smooth">
+<!-- Results Content -->
+<div class="p-12 lg:p-16 max-w-4xl mx-auto w-full space-y-16 pb-32">
+<!-- Category: High Probability -->
+<div class="space-y-6">
+<div class="flex items-end justify-between border-b-2 border-unipillar-text pb-4">
+<h2 class="font-display font-bold text-3xl text-unipillar-text">High Probability (&gt;75%)</h2>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="bg-unipillar-surface rounded-lg brutal-border p-6 shadow-brutal hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal-hover transition-all flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-display font-bold text-xl text-unipillar-text truncate pr-4">NIT Trichy</h3>
+<p class="font-body text-sm text-unipillar-muted mt-1">CSE (Other State)</p>
+</div>
+<div class="bg-primary text-unipillar-surface font-display font-bold text-sm py-1 px-3 rounded-full shrink-0">
+                                    94%
+                                </div>
+</div>
+<div class="flex justify-between items-end border-t border-unipillar-muted/20 pt-4">
+<div class="flex items-center gap-1 text-unipillar-muted">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span class="font-body text-xs font-medium uppercase tracking-[1px]">2023 Cutoff</span>
+</div>
+<span class="font-display font-bold text-lg">1,500</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-unipillar-surface rounded-lg brutal-border p-6 shadow-brutal hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal-hover transition-all flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-display font-bold text-xl text-unipillar-text truncate pr-4">COEP Pune</h3>
+<p class="font-body text-sm text-unipillar-muted mt-1">Computer Engineering</p>
+</div>
+<div class="bg-primary text-unipillar-surface font-display font-bold text-sm py-1 px-3 rounded-full shrink-0">
+                                    89%
+                                </div>
+</div>
+<div class="flex justify-between items-end border-t border-unipillar-muted/20 pt-4">
+<div class="flex items-center gap-1 text-unipillar-muted">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span class="font-body text-xs font-medium uppercase tracking-[1px]">2023 Cutoff</span>
+</div>
+<span class="font-display font-bold text-lg">2,200</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Category: Moderate Probability -->
+<div class="space-y-6">
+<div class="flex items-end justify-between border-b-2 border-unipillar-text pb-4">
+<h2 class="font-display font-bold text-3xl text-unipillar-text">Moderate Probability (40-75%)</h2>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="bg-unipillar-surface rounded-lg brutal-border p-6 shadow-brutal hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal-hover transition-all flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-display font-bold text-xl text-unipillar-text truncate pr-4">IIIT Hyderabad</h3>
+<p class="font-body text-sm text-unipillar-muted mt-1">CSE (B.Tech)</p>
+</div>
+<div class="bg-unipillar-text text-unipillar-surface font-display font-bold text-sm py-1 px-3 rounded-full shrink-0">
+                                    62%
+                                </div>
+</div>
+<div class="flex justify-between items-end border-t border-unipillar-muted/20 pt-4">
+<div class="flex items-center gap-1 text-unipillar-muted">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span class="font-body text-xs font-medium uppercase tracking-[1px]">2023 Cutoff</span>
+</div>
+<span class="font-display font-bold text-lg">1,150</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-unipillar-surface rounded-lg brutal-border p-6 shadow-brutal hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal-hover transition-all flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-display font-bold text-xl text-unipillar-text truncate pr-4">IIT Kharagpur</h3>
+<p class="font-body text-sm text-unipillar-muted mt-1">ECE (4-Year)</p>
+</div>
+<div class="bg-unipillar-text text-unipillar-surface font-display font-bold text-sm py-1 px-3 rounded-full shrink-0">
+                                    48%
+                                </div>
+</div>
+<div class="flex justify-between items-end border-t border-unipillar-muted/20 pt-4">
+<div class="flex items-center gap-1 text-unipillar-muted">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span class="font-body text-xs font-medium uppercase tracking-[1px]">2023 Cutoff</span>
+</div>
+<span class="font-display font-bold text-lg">1,020</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Category: Low Probability -->
+<div class="space-y-6 opacity-75">
+<div class="flex items-end justify-between border-b-2 border-unipillar-text pb-4">
+<h2 class="font-display font-bold text-3xl text-unipillar-text">Low Probability (&lt;40%)</h2>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+<!-- Card 1 -->
+<div class="bg-unipillar-surface rounded-lg brutal-border p-6 shadow-brutal hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal-hover transition-all flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-display font-bold text-xl text-unipillar-text truncate pr-4">IIT Bombay</h3>
+<p class="font-body text-sm text-unipillar-muted mt-1">CSE</p>
+</div>
+<div class="bg-unipillar-muted text-unipillar-surface font-display font-bold text-sm py-1 px-3 rounded-full shrink-0">
+                                    5%
+                                </div>
+</div>
+<div class="flex justify-between items-end border-t border-unipillar-muted/20 pt-4">
+<div class="flex items-center gap-1 text-unipillar-muted">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span class="font-body text-xs font-medium uppercase tracking-[1px]">2023 Cutoff</span>
+</div>
+<span class="font-display font-bold text-lg">67</span>
+</div>
+</div>
+<!-- Card 2 (Added to demonstrate scrollability) -->
+<div class="bg-unipillar-surface rounded-lg brutal-border p-6 shadow-brutal hover:-translate-y-1 hover:-translate-x-1 hover:shadow-brutal-hover transition-all flex flex-col justify-between h-[180px]">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-display font-bold text-xl text-unipillar-text truncate pr-4">IIT Delhi</h3>
+<p class="font-body text-sm text-unipillar-muted mt-1">CSE</p>
+</div>
+<div class="bg-unipillar-muted text-unipillar-surface font-display font-bold text-sm py-1 px-3 rounded-full shrink-0">
+                                    3%
+                                </div>
+</div>
+<div class="flex justify-between items-end border-t border-unipillar-muted/20 pt-4">
+<div class="flex items-center gap-1 text-unipillar-muted">
+<span class="material-symbols-outlined text-[18px]">history</span>
+<span class="font-body text-xs font-medium uppercase tracking-[1px]">2023 Cutoff</span>
+</div>
+<span class="font-display font-bold text-lg">118</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</body></html>
