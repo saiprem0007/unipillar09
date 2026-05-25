@@ -2,15 +2,7 @@
 import { signupUser } from "@/lib/api/auth.api";
 import { useState } from "react";
 
-type SignupFormProps = {
-  onLogin: () => void;
-  onSuccess: () => void;
-};
-
-export default function SignupForm({
-  onLogin,
-  onSuccess,
-}: SignupFormProps) {
+export default function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [signupData, setSignupData] = useState({

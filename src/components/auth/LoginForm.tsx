@@ -4,16 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { loginUser } from "@/lib/api/auth.api";
 import { useAuthStore } from "@/store/authStore";
-type LoginFormProps = {
-  onSignup: () => void;
-  onForgot: () => void;
-  onSuccess: () => void;
-};
-export default function LoginForm({
-  onSignup,
-  onForgot,
-  onSuccess,
-}: LoginFormProps) {
+
+export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const [loginData, setLoginData] = useState({
@@ -55,7 +47,7 @@ export default function LoginForm({
 
       alert(
         error?.response?.data?.message ||
-        "Login failed"
+          "Login failed"
       );
     }
   };
@@ -89,10 +81,11 @@ export default function LoginForm({
               email: e.target.value,
             })
           }
-          className={`w-full h-14 px-4 rounded-2xl border-2 bg-white text-[#111827] outline-none transition-all ${errors.email
-            ? "border-red-500"
-            : "border-[#D1D5DB] focus:border-[#10B981]"
-            }`}
+          className={`w-full h-14 px-4 rounded-2xl border-2 bg-white text-[#111827] outline-none transition-all ${
+            errors.email
+              ? "border-red-500"
+              : "border-[#D1D5DB] focus:border-[#10B981]"
+          }`}
         />
 
         {errors.email && (
@@ -118,10 +111,11 @@ export default function LoginForm({
               password: e.target.value,
             })
           }
-          className={`w-full h-14 px-4 rounded-2xl border-2 bg-white text-[#111827] outline-none transition-all ${errors.password
-            ? "border-red-500"
-            : "border-[#D1D5DB] focus:border-[#10B981]"
-            }`}
+          className={`w-full h-14 px-4 rounded-2xl border-2 bg-white text-[#111827] outline-none transition-all ${
+            errors.password
+              ? "border-red-500"
+              : "border-[#D1D5DB] focus:border-[#10B981]"
+          }`}
         />
 
         <button
@@ -176,12 +170,12 @@ export default function LoginForm({
           Don&apos;t have an account?
         </span>
 
-        <button
-          onClick={onSignup}
+        <Link
+          href="/signup"
           className="ml-2 text-sm font-bold text-[#10B981]"
         >
           Create Account
-        </button>
+        </Link>
       </div>
     </div>
   );
