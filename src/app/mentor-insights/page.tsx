@@ -65,64 +65,6 @@ export default function MentorInsightsPage() {
       `}} />
 
       <div className="bg-[#F9F9F9] font-body text-[#0A0A0A] min-h-screen flex">
-        {/* Shared SideNavBar */}
-        <div className="relative flex h-auto min-h-screen w-64 flex-col bg-[#f8fcfb] overflow-x-hidden border-r-2 border-[#0A0A0A] shrink-0 hidden md:flex font-display">
-          <div className="flex h-full grow flex-col w-full">
-            <div className="flex flex-1 justify-center py-5 w-full">
-              <div className="flex flex-col w-full flex-1">
-                <div className="flex h-full min-h-[700px] flex-col justify-between bg-[#f8fcfb] p-4 w-full">
-                  <div className="flex flex-col gap-4">
-                    <div className="flex gap-3 items-center">
-                      <div className="bg-[#059669] rounded-lg flex items-center justify-center p-2 border-2 border-[#0A0A0A]">
-                        <span className="material-symbols-outlined text-white font-bold">account_balance</span>
-                      </div>
-                      <h1 className="text-[#0d1c17] text-xl font-bold leading-normal font-display">Unipillar</h1>
-                    </div>
-                    <div className="flex flex-col gap-2 mt-8">
-                      <Link href="/" className="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-gray-100 rounded-lg">
-                        <div className="text-[#0d1c17]">
-                          <span className="material-symbols-outlined">house</span>
-                        </div>
-                        <p className="text-[#0d1c17] text-sm font-medium leading-normal">Dashboard</p>
-                      </Link>
-                      <Link href="/predictor" className="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-gray-100 rounded-lg">
-                        <div className="text-[#0d1c17]">
-                          <span className="material-symbols-outlined">analytics</span>
-                        </div>
-                        <p className="text-[#0d1c17] text-sm font-medium leading-normal">Predictor</p>
-                      </Link>
-                      <Link href="/preferences" className="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-gray-100 rounded-lg">
-                        <div className="text-[#0d1c17]">
-                          <span className="material-symbols-outlined">compass_calibration</span>
-                        </div>
-                        <p className="text-[#0d1c17] text-sm font-medium leading-normal">Preference Order</p>
-                      </Link>
-                      <Link href="/mentor-insights" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#e6f4f0] brutal-border shadow-[4px_4px_0px_#0A0A0A]">
-                        <div className="text-[#0d1c17]">
-                          <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>user_attributes</span>
-                        </div>
-                        <p className="text-[#0d1c17] text-sm font-bold leading-normal">Mentor Insights</p>
-                      </Link>
-                      <Link href="/seat-matrix" className="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-gray-100 rounded-lg">
-                        <div className="text-[#0d1c17]">
-                          <span className="material-symbols-outlined">table_chart</span>
-                        </div>
-                        <p className="text-[#0d1c17] text-sm font-medium leading-normal">Seat Matrix</p>
-                      </Link>
-                      <Link href="/premium" className="flex items-center gap-3 px-3 py-2 cursor-pointer hover:bg-gray-100 rounded-lg">
-                        <div className="text-[#0d1c17]">
-                          <span className="material-symbols-outlined text-[#D4AF37]">star</span>
-                        </div>
-                        <p className="text-[#0d1c17] text-sm font-medium leading-normal">Premium Hub</p>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Main Content */}
         <main className="flex-1 flex flex-col relative w-full overflow-hidden">
           {/* Header / Filters (Sticky) */}

@@ -25,26 +25,27 @@ export default function PredictorPage() {
   const [rankInput, setRankInput] = useState<string>("1200");
   const [category, setCategory] = useState("General");
   const [gender, setGender] = useState("Gender-Neutral");
+  const [pwd, setPwd] = useState("No");
   const [preferredBranch, setPreferredBranch] = useState("Computer Science");
   const [analyzedResults, setAnalyzedResults] = useState<CollegeResult[]>(DEFAULT_RESULTS);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const handleAnalyze = () => {
     setIsAnalyzing(true);
+
     setTimeout(() => {
       const userRank = parseInt(rankInput) || 0;
-      
-      // Calculate dynamic probability based on user rank and cutoff
+
       const updated = DEFAULT_RESULTS.map((item) => {
         let prob = 0;
-        
-        // Custom formula for mock predictor
+
         if (examType === "Advanced" && item.type !== "IIT") {
-          prob = 10; // low likelihood of NITs through Advanced
+          prob = 10;
         } else if (examType === "Main" && item.type === "IIT") {
-          prob = 2; // low likelihood of IITs through Main
+          prob = 2;
         } else {
           const ratio = item.cutoff / userRank;
+
           if (ratio >= 1.2) {
             prob = Math.min(99, Math.floor(80 + (ratio - 1.2) * 40));
           } else if (ratio >= 0.8) {
@@ -54,14 +55,16 @@ export default function PredictorPage() {
           }
         }
 
-        // Apply slight multipliers for Category/Gender
+        // category boost
         if (category !== "General") prob = Math.min(99, prob + 8);
+
+        // gender boost
         if (gender === "Female-Only") prob = Math.min(99, prob + 5);
 
-        return {
-          ...item,
-          prob,
-        };
+        // ✅ PWD BOOST
+        if (pwd === "Yes") prob = Math.min(99, prob + 6);
+
+        return { ...item, prob };
       });
 
       setAnalyzedResults(updated);
@@ -86,7 +89,8 @@ export default function PredictorPage() {
         rel="stylesheet"
       />
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .brutal-border {
           border: 2px solid #0A0A0A;
         }
@@ -119,13 +123,6 @@ export default function PredictorPage() {
           {/* Left Pane: Sticky Input Form (40%) */}
           <div className="w-full lg:w-[40%] h-full flex flex-col justify-center px-8 lg:px-16 border-r-2 border-[#0A0A0A] bg-white shadow-[4px_4px_0px_#0A0A0A] z-10 relative overflow-y-auto no-scrollbar">
             {/* Minimal Back Button */}
-            <Link 
-              className="absolute top-8 left-8 flex items-center gap-2 text-[#878787] hover:text-[#0A0A0A] transition-colors group" 
-              href="/"
-            >
-              <span className="material-symbols-outlined text-2xl group-hover:-translate-x-1 transition-transform">arrow_back</span>
-              <span className="font-body font-medium uppercase tracking-[1px] text-[13px]">Dashboard</span>
-            </Link>
 
             <div className="max-w-md mx-auto w-full space-y-10 py-20 lg:py-0">
               <div className="space-y-4">
@@ -143,22 +140,22 @@ export default function PredictorPage() {
                   <label className="font-body font-medium uppercase tracking-[1px] text-[13px] text-[#878787] block">Exam Type</label>
                   <div className="grid grid-cols-2 gap-2">
                     <label className="cursor-pointer">
-                      <input 
-                        checked={examType === "Main"} 
+                      <input
+                        checked={examType === "Main"}
                         onChange={() => setExamType("Main")}
-                        className="hidden peer" 
-                        name="exam" 
-                        type="radio" 
+                        className="hidden peer"
+                        name="exam"
+                        type="radio"
                       />
                       <div className="text-center py-2 px-4 brutal-border rounded-lg font-display font-bold text-sm peer-checked:bg-[#059669] peer-checked:text-white transition-colors">JEE Main</div>
                     </label>
                     <label className="cursor-pointer">
-                      <input 
-                        checked={examType === "Advanced"} 
+                      <input
+                        checked={examType === "Advanced"}
                         onChange={() => setExamType("Advanced")}
-                        className="hidden peer" 
-                        name="exam" 
-                        type="radio" 
+                        className="hidden peer"
+                        name="exam"
+                        type="radio"
                       />
                       <div className="text-center py-2 px-4 brutal-border rounded-lg font-display font-bold text-sm peer-checked:bg-[#059669] peer-checked:text-white transition-colors">JEE Advanced</div>
                     </label>
@@ -170,10 +167,10 @@ export default function PredictorPage() {
                   <label className="font-body font-medium uppercase tracking-[1px] text-[13px] text-[#878787] block" htmlFor="rank">
                     CRL / Category Rank
                   </label>
-                  <input 
-                    className="w-full bg-[#F9F9F9] font-display font-bold text-[64px] leading-none text-[#0A0A0A] placeholder:text-[#878787]/30 rank-input pb-2 rounded-t-lg px-4 pt-4 border-0 border-b-2 ring-0 focus:ring-0 focus:border-[#0A0A0A] focus:border-b-4 transition-all" 
-                    id="rank" 
-                    placeholder="e.g. 1200" 
+                  <input
+                    className="w-full bg-[#F9F9F9] font-display font-bold text-[64px] leading-none text-[#0A0A0A] placeholder:text-[#878787]/30 rank-input pb-2 rounded-t-lg px-4 pt-4 border-0 border-b-2 ring-0 focus:ring-0 focus:border-[#0A0A0A] focus:border-b-4 transition-all"
+                    id="rank"
+                    placeholder="e.g. 1200"
                     type="text"
                     value={rankInput}
                     onChange={(e) => setRankInput(e.target.value)}
@@ -184,7 +181,7 @@ export default function PredictorPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="font-body font-medium uppercase tracking-[1px] text-[11px] text-[#878787] block">Category</label>
-                    <select 
+                    <select
                       value={category}
                       onChange={(e) => setCategory(e.target.value)}
                       className="w-full bg-white border-2 border-[#0A0A0A] font-body font-medium text-sm rounded-lg focus:ring-0 focus:border-[#0A0A0A]"
@@ -198,7 +195,7 @@ export default function PredictorPage() {
                   </div>
                   <div className="space-y-2">
                     <label className="font-body font-medium uppercase tracking-[1px] text-[11px] text-[#878787] block">Gender</label>
-                    <select 
+                    <select
                       value={gender}
                       onChange={(e) => setGender(e.target.value)}
                       className="w-full bg-white border-2 border-[#0A0A0A] font-body font-medium text-sm rounded-lg focus:ring-0 focus:border-[#0A0A0A]"
@@ -208,28 +205,77 @@ export default function PredictorPage() {
                     </select>
                   </div>
                 </div>
+                <select value={pwd} onChange={(e) => setPwd(e.target.value)} className="border p-2 w-full">
+                <option value="No">PWD: No</option>
+                <option value="Yes">PWD: Yes</option>
+              </select>
 
                 {/* Branch Selection */}
                 <div className="space-y-2">
                   <label className="font-body font-medium uppercase tracking-[1px] text-[13px] text-[#878787] block">Preferred Branches</label>
-                  <select 
+                  <select
                     value={preferredBranch}
                     onChange={(e) => setPreferredBranch(e.target.value)}
                     className="w-full bg-white border-2 border-[#0A0A0A] p-3 font-display font-bold text-sm rounded-lg appearance-none cursor-pointer focus:outline-none focus:ring-0 focus:border-[#0A0A0A]"
                   >
-                    <option>Computer Science</option>
-                    <option>Electronics</option>
-                    <option>Mechanical</option>
-                    <option>Electrical</option>
-                    <option>Civil</option>
+                    <option>Computer Science & Engineering</option>
+
+                    <option>Electronics & Communication (ECE/EEE)</option>
+
+                    <option>Electrical Engineering</option>
+
+                    <option>Mechanical Engineering</option>
+
+                    <option>Civil Engineering</option>
+
+                    <option>Chemical Engineering</option>
+
+                    <option>Aerospace Engineering</option>
+
+                    <option>Biotechnology / Bioengineering</option>
+
+                    <option>Metallurgical & Materials Engineering</option>
+
+                    <option>Industrial & Production Engineering</option>
+
+                    <option>Instrumentation Engineering</option>
+
+                    <option>Mining Engineering</option>
+
+                    <option>Petroleum Engineering</option>
+
+                    <option>Textile Engineering</option>
+
+                    <option>Architecture (B.Arch)</option>
+
+                    <option>Mathematics & Computing</option>
+
+                    <option>Engineering Physics</option>
+
+                    <option>Engineering Science / Interdisciplinary Engineering</option>
+
+                    <option>Environmental Engineering</option>
+
+                    <option>Naval Architecture / Ocean Engineering</option>
+
+                    <option>Geological / Geophysics Engineering</option>
+
+                    <option>Artificial Intelligence & Data Science</option>
+
+                    <option>Information Technology (IT)</option>
+
+                    <option>Robotics & Automation</option>
+
+                    <option>Materials Science & Engineering</option>
+
                   </select>
                 </div>
 
                 {/* Submit CTA */}
-                <button 
+                <button
                   disabled={isAnalyzing}
                   onClick={handleAnalyze}
-                  className="w-full py-4 bg-[#059669] text-white font-display font-semibold text-[15px] rounded-lg brutal-border shadow-[4px_4px_0px_#0A0A0A] hover:shadow-[6px_6px_0px_#0A0A0A] hover:-translate-y-0.5 hover:-translate-x-0.5 transition-all uppercase tracking-wide disabled:opacity-50" 
+                  className="w-full py-4 bg-[#059669] text-white font-display font-semibold text-[15px] rounded-lg brutal-border shadow-[4px_4px_0px_#0A0A0A] hover:shadow-[6px_6px_0px_#0A0A0A] hover:-translate-y-0.5 hover:-translate-x-0.5 transition-all uppercase tracking-wide disabled:opacity-50"
                   type="button"
                 >
                   {isAnalyzing ? "Analyzing Options..." : "Analyze JoSAA Options"}
@@ -240,7 +286,7 @@ export default function PredictorPage() {
 
           {/* Right Pane: Scrollable Results (60%) */}
           <div className="hidden lg:flex w-[60%] h-full bg-[#F9F9F9] flex-col overflow-y-auto relative scroll-smooth no-scrollbar p-12 lg:p-16 max-w-4xl mx-auto space-y-16 pb-32">
-            
+
             {/* Category: High Probability */}
             <div className="space-y-6">
               <div className="flex items-end justify-between border-b-2 border-[#0A0A0A] pb-4">

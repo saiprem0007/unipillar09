@@ -1,5 +1,5 @@
 "use client";
-
+import Footer from "@/components/home/Footer";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -45,21 +45,7 @@ export default function PremiumPage() {
 
       <div className="brutal-premium-body min-h-screen antialiased flex flex-col">
         {/* Minimal Header for Focused View */}
-        <header className="w-full border-b-[2px] border-[#0A0A0A] bg-[#FFFFFF] px-8 py-6 flex items-center justify-between sticky top-0 z-50">
-          <div className="flex items-center gap-3">
-            <Link 
-              href="/"
-              aria-label="Go back" 
-              className="w-10 h-10 border-[2px] border-[#0A0A0A] rounded-lg flex items-center justify-center bg-[#FFFFFF] hover:bg-[#F9F9F9] transition-all shadow-[4px_4px_0px_#0A0A0A] active:translate-y-1 active:translate-x-1 active:shadow-none"
-            >
-              <span className="material-symbols-outlined font-bold text-xl">arrow_back</span>
-            </Link>
-            <span className="font-display font-bold text-2xl tracking-tight text-[#0A0A0A]">Unipillar</span>
-          </div>
-          <div>
-            <span className="text-sm font-bold uppercase tracking-[1px] text-[#878787]">Upgrade to Elite</span>
-          </div>
-        </header>
+       
 
         <main className="flex-grow py-16 px-6 bg-[#F9F9F9]">
           <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
@@ -240,18 +226,7 @@ export default function PremiumPage() {
           </section>
         </main>
 
-        <footer className="mt-20 border-t-2 border-[#0A0A0A] bg-[#FFFFFF] py-12 px-8">
-          <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-            <span className="font-display font-bold text-xl text-[#0A0A0A]">Unipillar Elite</span>
-            <div className="flex gap-8 text-sm font-bold uppercase tracking-wider text-[#878787]">
-              <a className="hover:text-[#0A0A0A]" href="#">Privacy</a>
-              <a className="hover:text-[#0A0A0A]" href="#">Terms</a>
-              <a className="hover:text-[#0A0A0A]" href="#">Refund Policy</a>
-              <a className="hover:text-[#0A0A0A]" href="#">Support</a>
-            </div>
-            <p className="text-xs text-[#878787]">© 2024 Unipillar Education. High-stakes guidance for high-stakes futures.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );
