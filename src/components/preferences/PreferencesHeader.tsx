@@ -1,4 +1,4 @@
-'use client';
+// C:\Users\saipr\Desktop\coding\webdev\unipillar09-main\src\components\preferences\PreferencesHeader.tsx
 
 export default function PreferencesHeader() {
   return (
@@ -7,7 +7,7 @@ export default function PreferencesHeader() {
         <div className="flex items-center gap-4">
           <button
             aria-label="Go back"
-            className="w-10 h-10 flex items-center justify-center brutal-border rounded-lg bg-white hover:bg-gray-50 transition-colors shadow-[2px_2px_0px_#0A0A0A]"
+            className="w-10 h-10 flex items-center justify-center brutal-border rounded-lg bg-white hover:bg-gray-50 transition-colors shadow-brutal-sm"
           >
             <span className="material-symbols-outlined font-bold">arrow_back</span>
           </button>

@@ -1,14 +1,12 @@
-'use client';
+// C:\Users\saipr\Desktop\coding\webdev\unipillar09-main\src\components\preferences\SliderRow.tsx
 
-export default function SliderRow({
-  label,
-  value,
-  onChange,
-}: {
+interface SliderRowProps {
   label: string;
   value: number;
   onChange: (v: number) => void;
-}) {
+}
+
+export default function SliderRow({ label, value, onChange }: SliderRowProps) {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
