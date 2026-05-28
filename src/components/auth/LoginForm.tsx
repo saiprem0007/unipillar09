@@ -1,59 +1,89 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { loginUser } from "@/lib/api/auth.api";
 import { useAuthStore } from "@/store/authStore";
 
-export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState(false);
+interface LoginFormProps {
+  onSignup: () => void;
+  onForgot: () => void;
+  onSuccess: () => void;
+}
 
-  const [loginData, setLoginData] = useState({
-    email: "",
-    password: "",
-  });
+export default function LoginForm({
+  onSignup,
+  onForgot,
+  onSuccess,
+}: LoginFormProps) {
+  const [showPassword, setShowPassword] =
+    useState(false);
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loginData, setLoginData] =
+    useState({
+      email: "",
+      password: "",
+    });
 
-  const loginStore = useAuthStore((state) => state.login);
+  const [errors, setErrors] =
+    useState<Record<string, string>>({});
+
+  const loginStore = useAuthStore(
+    (state) => state.login,
+  );
 
   const validateLogin = () => {
-    const newErrors: Record<string, string> = {};
+    const newErrors: Record<
+      string,
+      string
+    > = {};
 
     if (!loginData.email.trim()) {
-      newErrors.email = "Email or Mobile Number is required";
+      newErrors.email =
+        "Email is required";
     }
 
     if (!loginData.password.trim()) {
-      newErrors.password = "Password is required";
+      newErrors.password =
+        "Password is required";
     }
 
     setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0;
+    return (
+      Object.keys(newErrors).length === 0
+    );
   };
 
   const handleLogin = async () => {
     if (!validateLogin()) return;
 
     try {
-      const data = await loginUser(loginData);
+      const data = await loginUser(
+        loginData,
+      );
 
-      loginStore(data.token, data.user);
+      loginStore(
+        data.token,
+        data.user,
+      );
 
-      window.location.href = "/profile";
+      onSuccess();
+
+      window.location.href =
+        "/profile";
     } catch (error: any) {
       console.log(error);
 
       alert(
         error?.response?.data?.message ||
-          "Login failed"
+          "Login failed",
       );
     }
   };
 
   return (
     <div className="space-y-6">
+
       {/* Heading */}
       <div className="space-y-2">
         <h2 className="text-3xl font-bold text-[#111827]">
@@ -61,18 +91,19 @@ export default function LoginForm() {
         </h2>
 
         <p className="text-sm text-[#6B7280]">
-          Login to continue your counselling journey.
+          Login to continue your
+          counselling journey.
         </p>
       </div>
 
       {/* Email */}
       <div className="space-y-2">
         <label className="text-sm font-semibold text-[#111827] block">
-          Email or Mobile Number
+          Email
         </label>
 
         <input
-          type="text"
+          type="email"
           placeholder="name@college.edu"
           value={loginData.email}
           onChange={(e) =>
@@ -102,7 +133,11 @@ export default function LoginForm() {
         </label>
 
         <input
-          type={showPassword ? "text" : "password"}
+          type={
+            showPassword
+              ? "text"
+              : "password"
+          }
           placeholder="••••••••"
           value={loginData.password}
           onChange={(e) =>
@@ -121,11 +156,15 @@ export default function LoginForm() {
         <button
           type="button"
           onClick={() =>
-            setShowPassword(!showPassword)
+            setShowPassword(
+              !showPassword,
+            )
           }
           className="absolute right-4 top-[42px] text-[#6B7280]"
         >
-          {showPassword ? "🙈" : "👁️"}
+          {showPassword
+            ? "🙈"
+            : "👁️"}
         </button>
 
         {errors.password && (
@@ -135,7 +174,7 @@ export default function LoginForm() {
         )}
       </div>
 
-      {/* Remember */}
+      {/* Remember + Forgot */}
       <div className="flex items-center justify-between">
         <label className="flex items-center gap-2">
           <input
@@ -148,15 +187,16 @@ export default function LoginForm() {
           </span>
         </label>
 
-        <Link
-          href="/auth?view=forgot"
+        <button
+          type="button"
+          onClick={onForgot}
           className="text-sm font-semibold text-[#10B981]"
         >
           Forgot password?
-        </Link>
+        </button>
       </div>
 
-      {/* Button */}
+      {/* Login Button */}
       <button
         onClick={handleLogin}
         className="w-full h-14 rounded-2xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-lg transition-all"
@@ -167,16 +207,19 @@ export default function LoginForm() {
       {/* Bottom */}
       <div className="text-center">
         <span className="text-sm text-[#6B7280]">
-          Don&apos;t have an account?
+          Don&apos;t have an
+          account?
         </span>
 
-        <Link
-          href="/signup"
+        <button
+          type="button"
+          onClick={onSignup}
           className="ml-2 text-sm font-bold text-[#10B981]"
         >
           Create Account
-        </Link>
+        </button>
       </div>
+
     </div>
   );
 }

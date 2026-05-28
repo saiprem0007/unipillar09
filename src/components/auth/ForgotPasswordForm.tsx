@@ -2,8 +2,43 @@
 
 import { useState } from "react";
 
-export default function ForgotPasswordForm() {
+import { forgotPassword } from "@/lib/api/auth.api";
+
+interface ForgotPasswordFormProps {
+  onSuccess: (email: string) => void;
+}
+
+export default function ForgotPasswordForm({
+  onSuccess,
+}: ForgotPasswordFormProps) {
   const [email, setEmail] = useState("");
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [error, setError] =
+    useState("");
+
+  const handleForgotPassword =
+    async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        await forgotPassword({
+          email,
+        });
+
+        onSuccess(email);
+      } catch (err: any) {
+        setError(
+          err?.response?.data?.message ||
+            "Something went wrong",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
   return (
     <div className="space-y-6">
@@ -13,7 +48,8 @@ export default function ForgotPasswordForm() {
         </h2>
 
         <p className="text-sm text-[#6B7280]">
-          Enter your registered email to receive a recovery link.
+          Enter your registered email to
+          receive an OTP.
         </p>
       </div>
 
@@ -24,18 +60,30 @@ export default function ForgotPasswordForm() {
 
         <input
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
           type="email"
           placeholder="name@college.edu"
           className="w-full h-14 px-4 rounded-2xl border-2 border-[#D1D5DB] bg-white text-[#111827] outline-none transition-all focus:border-[#10B981] focus:shadow-[0_0_0_4px_rgba(16,185,129,0.15)]"
         />
       </div>
 
+      {error && (
+        <p className="text-sm text-red-500">
+          {error}
+        </p>
+      )}
+
       <button
         type="button"
-        className="w-full h-14 rounded-2xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-lg transition-all duration-300 shadow-lg shadow-emerald-200"
+        onClick={handleForgotPassword}
+        disabled={loading}
+        className="w-full h-14 rounded-2xl bg-[#10B981] hover:bg-[#059669] disabled:opacity-60 text-white font-bold text-lg transition-all duration-300 shadow-lg shadow-emerald-200"
       >
-        Send Recovery Link
+        {loading
+          ? "Sending OTP..."
+          : "Send OTP"}
       </button>
     </div>
   );

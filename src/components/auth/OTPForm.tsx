@@ -2,10 +2,32 @@
 
 import { useRef, useState } from "react";
 
-export default function OTPForm() {
+import {
+  verifyResetOtp,
+  forgotPassword,
+} from "@/lib/api/auth.api";
+
+interface OTPFormProps {
+  email: string;
+  onSuccess: () => void;
+}
+
+export default function OTPForm({
+  email,
+  onSuccess,
+}: OTPFormProps) {
   const [otp, setOtp] = useState<string[]>(
     new Array(6).fill("")
   );
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [error, setError] =
+    useState("");
+
+  const [resendLoading, setResendLoading] =
+    useState(false);
 
   const otpInputsRef = useRef<
     (HTMLInputElement | null)[]
@@ -41,19 +63,51 @@ export default function OTPForm() {
     }
   };
 
-  const verifyOtp = () => {
+  const verifyOtp = async () => {
     const finalOtp = otp.join("");
 
     if (finalOtp.length !== 6) {
-      alert("Please enter complete OTP");
+      setError("Please enter complete OTP");
       return;
     }
 
-    console.log(finalOtp);
+    try {
+      setLoading(true);
+      setError("");
 
-    // VERIFY OTP API HERE
+      await verifyResetOtp({
+        email,
+        otp: finalOtp,
+      });
 
-    window.location.href = "/profile";
+      onSuccess();
+    } catch (err: any) {
+      setError(
+        err?.response?.data?.message ||
+          "OTP verification failed"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resendOtp = async () => {
+    try {
+      setResendLoading(true);
+
+      await forgotPassword({
+        email,
+      });
+
+      setError("");
+    } catch (err: any) {
+      setError(
+        err?.response?.data?.message ||
+          "Failed to resend OTP"
+      );
+    } finally {
+      setResendLoading(false);
+    }
   };
 
   return (
@@ -64,7 +118,8 @@ export default function OTPForm() {
         </h2>
 
         <p className="text-sm text-[#6B7280] mt-2">
-          Enter the 6-digit code sent to your mobile.
+          Enter the 6-digit code sent to
+          your email.
         </p>
       </div>
 
@@ -74,11 +129,15 @@ export default function OTPForm() {
           <input
             key={index}
             ref={(el) => {
-              otpInputsRef.current[index] = el;
+              otpInputsRef.current[index] =
+                el;
             }}
             value={digit}
             onChange={(e) =>
-              handleOtpChange(e.target, index)
+              handleOtpChange(
+                e.target,
+                index
+              )
             }
             onKeyDown={(e) =>
               handleKeyDown(e, index)
@@ -90,18 +149,32 @@ export default function OTPForm() {
         ))}
       </div>
 
+      {error && (
+        <p className="text-sm text-red-500">
+          {error}
+        </p>
+      )}
+
       {/* Verify Button */}
       <button
         onClick={verifyOtp}
-        className="w-full h-14 rounded-2xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-lg transition-all"
+        disabled={loading}
+        className="w-full h-14 rounded-2xl bg-[#10B981] hover:bg-[#059669] disabled:opacity-60 text-white font-bold text-lg transition-all"
       >
-        Verify & Continue
+        {loading
+          ? "Verifying..."
+          : "Verify & Continue"}
       </button>
 
+      {/* Resend OTP */}
       <button
+        onClick={resendOtp}
+        disabled={resendLoading}
         className="text-sm font-semibold text-[#10B981]"
       >
-        Resend OTP
+        {resendLoading
+          ? "Sending..."
+          : "Resend OTP"}
       </button>
     </div>
   );

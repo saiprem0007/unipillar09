@@ -7,16 +7,21 @@ import LoginForm from "@/components/auth/LoginForm";
 import SignupForm from "@/components/auth/SignupForm";
 import OTPForm from "@/components/auth/OTPForm";
 import ForgotPasswordForm from "@/components/auth/ForgotPasswordForm";
+import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
 
 type AuthView =
   | "login"
   | "signup"
   | "otp"
-  | "forgot";
+  | "forgot"
+  | "reset";
 
 export default function AuthPage() {
   const [view, setView] =
     useState<AuthView>("login");
+
+  const [email, setEmail] =
+    useState("");
 
   return (
     <AuthLayout>
@@ -49,28 +54,61 @@ export default function AuthPage() {
         </div>
       )}
 
-      {/* Forms */}
+      {/* LOGIN */}
       {view === "login" && (
         <LoginForm
-          onSignup={() => setView("signup")}
-          onForgot={() => setView("forgot")}
-          onSuccess={() => setView("otp")}
+          onSignup={() =>
+            setView("signup")
+          }
+          onForgot={() =>
+            setView("forgot")
+          }
+          onSuccess={() =>
+            setView("otp")
+          }
         />
       )}
 
+      {/* SIGNUP */}
       {view === "signup" && (
         <SignupForm
-          onLogin={() => setView("login")}
-          onSuccess={() => setView("otp")}
+          onLogin={() =>
+            setView("login")
+          }
+          onSuccess={() =>
+            setView("otp")
+          }
         />
       )}
 
-      {view === "otp" && (
-        <OTPForm />
+      {/* FORGOT PASSWORD */}
+      {view === "forgot" && (
+        <ForgotPasswordForm
+          onSuccess={(email) => {
+            setEmail(email);
+            setView("otp");
+          }}
+        />
       )}
 
-      {view === "forgot" && (
-        <ForgotPasswordForm />
+      {/* OTP */}
+      {view === "otp" && (
+        <OTPForm
+          email={email}
+          onSuccess={() =>
+            setView("reset")
+          }
+        />
+      )}
+
+      {/* RESET PASSWORD */}
+      {view === "reset" && (
+        <ResetPasswordForm
+          email={email}
+          onSuccess={() =>
+            setView("login")
+          }
+        />
       )}
 
     </AuthLayout>

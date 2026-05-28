@@ -32,9 +32,16 @@ export default function SignupForm() {
       newErrors.mobile = "Mobile Number is required";
     }
 
-    if (signupData.password.length < 6) {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    if (
+      !passwordRegex.test(
+        signupData.password
+      )
+    ) {
       newErrors.password =
-        "Password must be at least 6 characters";
+        "Password must contain 8 characters, uppercase, lowercase and number";
     }
 
     if (

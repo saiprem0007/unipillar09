@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useAuthStore } from "@/store/authStore";
@@ -12,26 +12,49 @@ import SavedColleges from "@/components/profile/SavedColleges";
 import AccountSettings from "@/components/profile/AccountSettings";
 
 export default function ProfilePage() {
-  const user = useAuthStore((state) => state.user);
-  const token = useAuthStore((state) => state.token);
+  const [mounted, setMounted] =
+    useState(false);
 
-  const logout = useAuthStore((state) => state.logout);
-  const setUser = useAuthStore((state) => state.setUser);
+  const user = useAuthStore(
+    (state) => state.user,
+  );
+
+  const token = useAuthStore(
+    (state) => state.token,
+  );
+
+  const logout = useAuthStore(
+    (state) => state.logout,
+  );
+
+  const setUser = useAuthStore(
+    (state) => state.setUser,
+  );
 
   const router = useRouter();
 
+  // hydration fix
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // protect route
   useEffect(() => {
-    if (!token) {
+    if (mounted && !token) {
       router.push("/auth");
     }
-  }, [token, router]);
+  }, [token, router, mounted]);
 
   // fetch profile
   useEffect(() => {
+    if (!mounted || !token) return;
+
     const fetchProfile = async () => {
       try {
-        const response = await api.get("/user/profile");
+        const response =
+          await api.get(
+            "/user/profile",
+          );
 
         setUser(response.data.user);
       } catch (error) {
@@ -43,7 +66,18 @@ export default function ProfilePage() {
     };
 
     fetchProfile();
-  }, [router, setUser, logout]);
+  }, [
+    mounted,
+    token,
+    router,
+    setUser,
+    logout,
+  ]);
+
+  // prevent hydration mismatch
+  if (!mounted) {
+    return null;
+  }
 
   // loading state
   if (!user) {
@@ -68,8 +102,14 @@ export default function ProfilePage() {
 
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
             <AccountDetails user={user} />
+
             <SavedColleges />
-            <AccountSettings handleLogout={handleLogout} />
+
+            <AccountSettings
+              handleLogout={
+                handleLogout
+              }
+            />
           </div>
 
         </div>
