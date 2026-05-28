@@ -2,7 +2,12 @@
 import { signupUser } from "@/lib/api/auth.api";
 import { useState } from "react";
 
-export default function SignupForm() {
+interface SignupFormProps {
+  onLogin?: () => void;
+  onSuccess?: () => void;
+}
+
+export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const [signupData, setSignupData] = useState({
@@ -69,7 +74,11 @@ export default function SignupForm() {
 
       alert(data.message || "Signup successful");
 
-      window.location.href = "/auth";
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        window.location.href = "/auth";
+      }
     } catch (error: any) {
       console.error(error);
 
