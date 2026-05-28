@@ -116,7 +116,7 @@ export default function PredictorForm({ onSubmit }: PredictorFormProps) {
                         {/* Rank Input */}
                         <div className="space-y-2">
                             <label htmlFor="rank" className="font-medium uppercase tracking-[1px] text-[12px] text-[#878787] block">
-                                CRL / Category Rank
+                                Category Rank
                             </label>
                             <input
                                 type="text"
