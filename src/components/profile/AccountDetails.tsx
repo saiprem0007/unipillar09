@@ -54,7 +54,7 @@ export default function AccountDetails({ user }: Props) {
           </label>
 
           <div className="w-full p-4 border-2 border-[#0A0A0A] bg-[#f8f6f6] font-medium">
-            Premium User
+            {user?.isPremium ? "Premium User" : "Standard User"}
           </div>
         </div>
 
