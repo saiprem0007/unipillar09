@@ -9,11 +9,13 @@ import AccountSettings from '@/components/profile/AccountSettings';
 import Csab from '@/components/profile/Csab';
 
 import { useProfileStore } from '@/store/profileStore';
+import { useAuthStore } from '@/store/authStore';
 
 export default function ProfilePage() {
   const router = useRouter();
 
   const { fetchAll } = useProfileStore();
+  const user = useAuthStore((state) => state.user);
 
   const [ready, setReady] = useState(false);
 
@@ -39,7 +41,14 @@ export default function ProfilePage() {
 
     hasFetched.current = true;
     fetchAll();
-  }, [ready]); 
+  }, [ready, fetchAll]); 
+
+  // Re-fetch profile when user premium status changes
+  useEffect(() => {
+    if (user && hasFetched.current) {
+      fetchAll();
+    }
+  }, [user?.isPremium]);
 
   // ⛔ prevent UI flash before auth check
   if (!ready) return null;

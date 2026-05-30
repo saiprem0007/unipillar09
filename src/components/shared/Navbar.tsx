@@ -4,7 +4,8 @@ import Link from "next/link";
 import {
   usePathname,
 } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useAuthStore } from "@/store/authStore";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -12,15 +13,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] =
     useState(false);
 
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  const user = useAuthStore((state) => state.user);
 
   return (
     <header className="w-full border-b border-white/10 sticky top-0 z-50 glass-nav bg-opacity-90">
