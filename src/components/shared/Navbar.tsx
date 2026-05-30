@@ -119,8 +119,10 @@ export default function Navbar() {
               {user?.name || "Guest"}
             </span>
 
-            <span className="text-[10px] text-[#10B981] font-bold uppercase tracking-wider">
-              Free Tier
+            <span className={`text-[10px] font-bold uppercase tracking-wider ${
+              user?.isPremium ? "text-[#D4AF37]" : "text-[#10B981]"
+            }`}>
+              {user?.isPremium ? "Premium" : "Free Tier"}
             </span>
           </div>
 

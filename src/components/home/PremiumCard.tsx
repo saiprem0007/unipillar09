@@ -1,6 +1,13 @@
-import Link from "next/link";
+"use client";
+import { useRouter } from "next/navigation";
 
 export default function PremiumCard() {
+  const router = useRouter();
+
+  const handleUpgradeClick = () => {
+    router.push("/premium");
+  };
+
   return (
     <Link href="/premium">
       <div className="brutal-card bg-white relative group overflow-hidden border-2 border-[#0A0A0A] cursor-pointer">
@@ -45,7 +52,9 @@ export default function PremiumCard() {
               Upgrade Now
             </button>
           </div>
-
+          <button onClick={handleUpgradeClick} className="brutal-button w-full text-sm" style={{ boxShadow: '4px 4px 0px #0A0A0A', padding: '8px 20px' }}>
+            Upgrade Now
+          </button>
         </div>
       </div>
     </Link>

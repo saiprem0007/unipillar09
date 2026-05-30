@@ -130,8 +130,9 @@ export default function PreferencesPage() {
 
       setError('');
 
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
       const response = await axios.post(
-        'http://localhost:3001/preferences/generate',
+        `${baseUrl}/preferences/generate`,
         {
           profile,
           weights,
@@ -157,8 +158,9 @@ export default function PreferencesPage() {
 
   const handleDownload = async () => {
     try {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
       const res = await axios.post(
-        'http://localhost:3001/preferences/download-pdf',
+        `${baseUrl}/preferences/download-pdf`,
         {
           profile,
           weights,

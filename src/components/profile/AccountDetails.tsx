@@ -353,12 +353,8 @@ function RoundAllocationsSection() {
               ))}
             </select>
 
-            <button
-              onClick={handleSaveAllocation}
-              className="p-2 bg-[#059669] text-white font-bold brutalist-border"
-            >
-              Save Allocation
-            </button>
+          <div className="w-full p-4 border-2 border-[#0A0A0A] bg-[#f8f6f6] font-medium">
+            {user?.isPremium ? "Premium User" : "Standard User"}
           </div>
         </div>
       )}

@@ -36,8 +36,9 @@ export default function PredictorPage() {
 
       setLastPayload(formData);
 
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
       const response = await fetch(
-        'http://localhost:3001/predictor/analyze',
+        `${baseUrl}/predictor/analyze`,
         {
           method: 'POST',
 
