@@ -9,7 +9,41 @@ import {
 let isFetching = false;
 let lastFetchTime = 0;
 
-export const useProfileStore = create((set, get) => ({
+type Profile = {
+  id: string;
+  name: string;
+  email: string;
+  mobile?: string;
+  createdAt: string;
+  category: string;
+  gender: string;
+  pwd: string;
+  homeState: string;
+  jeeMains: number | null;
+  jeeAdvanced: number | null;
+};
+
+type Allocation = {
+  id?: string | number;
+  round: number;
+  college: string;
+  branch: string;
+  status: string;
+};
+
+interface ProfileState {
+  profile: Profile | null;
+  josaa: Allocation[];
+  csab: Allocation[];
+  loaded: boolean;
+  fetchAll: () => Promise<void>;
+  updateProfile: (data: any) => Promise<void>;
+  addJosaa: (data: any) => Promise<void>;
+  addCsab: (data: any) => Promise<void>;
+  reset: () => void;
+}
+
+export const useProfileStore = create<ProfileState>((set, get) => ({
   profile: null,
   josaa: [],
   csab: [],

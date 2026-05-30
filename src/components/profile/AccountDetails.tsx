@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useAuthStore } from '@/store/authStore';
 import { useProfileStore } from '@/store/profileStore';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -272,6 +273,7 @@ function AcademicProfileSection() {
 function RoundAllocationsSection() {
   const josaa = useProfileStore((state) => state.josaa);
   const addJosaa = useProfileStore((state) => state.addJosaa);
+  const user = useAuthStore((state) => state.user);
 
   const [newAlloc, setNewAlloc] = useState<NewAllocation>({
     college: '',
@@ -357,6 +359,7 @@ function RoundAllocationsSection() {
             {user?.isPremium ? "Premium User" : "Standard User"}
           </div>
         </div>
+      </div>
       )}
 
       <div className="flex flex-col gap-4">
