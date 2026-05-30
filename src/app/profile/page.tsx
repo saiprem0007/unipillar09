@@ -7,6 +7,7 @@ import ProfileCard from '@/components/profile/ProfileCard';
 import AccountDetails from '@/components/profile/AccountDetails';
 import AccountSettings from '@/components/profile/AccountSettings';
 import Csab from '@/components/profile/Csab';
+import EditProfileModal from '@/components/profile/EditProfileModal';
 
 import { useProfileStore } from '@/store/profileStore';
 import { useAuthStore } from '@/store/authStore';
@@ -18,8 +19,9 @@ export default function ProfilePage() {
   const user = useAuthStore((state) => state.user);
 
   const [ready, setReady] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
-  // 🔥 FIX: prevent Strict Mode double fetch (DEV)
+  // 🔥 prevent Strict Mode double fetch
   const hasFetched = useRef(false);
 
   // 🔐 AUTH CHECK
@@ -34,21 +36,21 @@ export default function ProfilePage() {
     setReady(true);
   }, [router]);
 
-  // 📦 FETCH ONLY ONCE (STRICT MODE SAFE)
+  // 📦 INITIAL FETCH (STRICT MODE SAFE)
   useEffect(() => {
     if (!ready) return;
     if (hasFetched.current) return;
 
     hasFetched.current = true;
     fetchAll();
-  }, [ready, fetchAll]); 
+  }, [ready, fetchAll]);
 
-  // Re-fetch profile when user premium status changes
+  // 🔄 REFRESH when premium/user changes
   useEffect(() => {
     if (user && hasFetched.current) {
       fetchAll();
     }
-  }, [user?.isPremium]);
+  }, [user?.isPremium, user]);
 
   // ⛔ prevent UI flash before auth check
   if (!ready) return null;
@@ -71,13 +73,21 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-[#f8f6f6] text-[#0A0A0A]">
         <main className="p-4 md:p-8 lg:p-12 overflow-y-auto">
 
-          <ProfileCard />
+          {/* Profile Header */}
+          <ProfileCard onEditClick={() => setEditOpen(true)} />
 
+          {/* Main Grid */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
             <AccountDetails />
             <Csab />
             <AccountSettings />
           </div>
+
+          {/* EDIT PROFILE MODAL */}
+          <EditProfileModal
+            open={editOpen}
+            onClose={() => setEditOpen(false)}
+          />
 
         </main>
       </div>
