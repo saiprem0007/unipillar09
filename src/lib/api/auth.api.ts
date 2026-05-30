@@ -1,5 +1,35 @@
 import api from "../axios";
 
+// ================= SEND SIGNUP OTP =================
+export const sendSignupOtp =
+  async (data: {
+    name: string;
+    email: string;
+    mobile: string;
+    password: string;
+  }) => {
+    const response = await api.post(
+      "/auth/send-signup-otp",
+      data
+    );
+
+    return response.data;
+  };
+
+// ================= VERIFY SIGNUP OTP =================
+export const verifySignupOtp =
+  async (data: {
+    email: string;
+    otp: string;
+  }) => {
+    const response = await api.post(
+      "/auth/verify-signup-otp",
+      data
+    );
+
+    return response.data;
+  };
+
 // ================= SIGNUP =================
 export const signupUser = async (data: {
   name: string;

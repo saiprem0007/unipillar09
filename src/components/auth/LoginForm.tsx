@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { loginUser } from "@/lib/api/auth.api";
 import { useAuthStore } from "@/store/authStore";
 
@@ -15,68 +16,68 @@ export default function LoginForm({
   onForgot,
   onSuccess,
 }: LoginFormProps) {
-  const [showPassword, setShowPassword] =
-    useState(false);
 
-  const [loginData, setLoginData] =
-    useState({
-      email: "",
-      password: "",
-    });
+  const router = useRouter();
 
-  const [errors, setErrors] =
-    useState<Record<string, string>>({});
+  const [showPassword, setShowPassword] = useState(false);
 
-  const loginStore = useAuthStore(
-    (state) => state.login,
-  );
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const loginStore = useAuthStore((state) => state.login);
 
   const validateLogin = () => {
-    const newErrors: Record<
-      string,
-      string
-    > = {};
+    const newErrors: Record<string, string> = {};
 
     if (!loginData.email.trim()) {
-      newErrors.email =
-        "Email is required";
+      newErrors.email = "Email is required";
     }
 
     if (!loginData.password.trim()) {
-      newErrors.password =
-        "Password is required";
+      newErrors.password = "Password is required";
     }
 
     setErrors(newErrors);
 
-    return (
-      Object.keys(newErrors).length === 0
-    );
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleLogin = async () => {
     if (!validateLogin()) return;
 
     try {
-      const data = await loginUser(
-        loginData,
-      );
+      const data = await loginUser(loginData);
 
-      loginStore(
-        data.token,
-        data.user,
-      );
+      // ✅ Zustand state update
+      loginStore(data.token, data.user);
+
+      // 🔥 LOCAL STORAGE (REQUIRED)
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // 🔥 OPTIONAL BACKEND WARM-UP
+      try {
+        await fetch("/api/user/sync");
+      } catch (e) {
+        console.log("sync skipped");
+      }
 
       onSuccess();
 
-      window.location.href =
-        "/profile";
+      // 🚀 FIX: FORCE APP ROUTER + ZUSTAND REFRESH
+      router.push("/profile");
+      router.refresh();
+
     } catch (error: any) {
       console.log(error);
 
       alert(
         error?.response?.data?.message ||
-          "Login failed",
+        "Login failed"
       );
     }
   };
@@ -91,8 +92,7 @@ export default function LoginForm({
         </h2>
 
         <p className="text-sm text-[#6B7280]">
-          Login to continue your
-          counselling journey.
+          Login to continue your counselling journey.
         </p>
       </div>
 
@@ -133,11 +133,7 @@ export default function LoginForm({
         </label>
 
         <input
-          type={
-            showPassword
-              ? "text"
-              : "password"
-          }
+          type={showPassword ? "text" : "password"}
           placeholder="••••••••"
           value={loginData.password}
           onChange={(e) =>
@@ -155,16 +151,10 @@ export default function LoginForm({
 
         <button
           type="button"
-          onClick={() =>
-            setShowPassword(
-              !showPassword,
-            )
-          }
+          onClick={() => setShowPassword(!showPassword)}
           className="absolute right-4 top-[42px] text-[#6B7280]"
         >
-          {showPassword
-            ? "🙈"
-            : "👁️"}
+          {showPassword ? "🙈" : "👁️"}
         </button>
 
         {errors.password && (
@@ -177,11 +167,7 @@ export default function LoginForm({
       {/* Remember + Forgot */}
       <div className="flex items-center justify-between">
         <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            className="accent-[#10B981]"
-          />
-
+          <input type="checkbox" className="accent-[#10B981]" />
           <span className="text-sm text-[#4B5563]">
             Remember me
           </span>
@@ -207,8 +193,7 @@ export default function LoginForm({
       {/* Bottom */}
       <div className="text-center">
         <span className="text-sm text-[#6B7280]">
-          Don&apos;t have an
-          account?
+          Don&apos;t have an account?
         </span>
 
         <button
