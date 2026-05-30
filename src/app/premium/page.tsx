@@ -3,6 +3,7 @@ import Footer from "@/components/home/Footer";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
+import { getProfile } from "@/lib/api/user.api";
 
 // ─── Razorpay types ────────────────────────────────────────────────────────────
 declare global {
@@ -89,6 +90,7 @@ const stateLabel: Record<UpgradeState, string> = {
 export default function PremiumPage() {
   const router = useRouter();
   const token = useAuthStore((state) => state.token);
+  const setUser = useAuthStore((state) => state.setUser);
   const [state, setState] = useState<UpgradeState>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isClient, setIsClient] = useState(false);
@@ -157,6 +159,13 @@ export default function PremiumPage() {
                 },
                 token,
               );
+
+              // Step 5: Fetch updated user profile with premium status
+              const profileData = await getProfile();
+              if (profileData?.user) {
+                setUser(profileData.user);
+              }
+
               resolve();
             } catch (err) {
               reject(err);

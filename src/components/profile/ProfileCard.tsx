@@ -1,6 +1,7 @@
 'use client';
 
 import { useProfileStore } from "@/store/profileStore";
+import { useAuthStore } from "@/store/authStore";
 import { UserRound } from "lucide-react";
 
 interface ProfileCardProps {
@@ -8,8 +9,8 @@ interface ProfileCardProps {
 }
 
 export default function ProfileCard({ onEditClick }: ProfileCardProps) {
-  // ✅ FIX: get full store instead of single selector
   const { profile, loaded } = useProfileStore();
+  const user = useAuthStore((state) => state.user);
 
   // 🔥 LOADING STATE HANDLING
   if (!loaded) {
@@ -30,9 +31,16 @@ export default function ProfileCard({ onEditClick }: ProfileCardProps) {
         </div>
 
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-1">
-            {profile?.name || 'Loading...'}
-          </h1>
+          <div className="flex items-center gap-3 mb-1">
+            <h1 className="text-3xl md:text-4xl font-bold">
+              {profile?.name || 'Loading...'}
+            </h1>
+            {user?.isPremium && (
+              <span className="material-symbols-outlined text-[#D4AF37]" style={{ fontSize: '28px', fontVariationSettings: "'FILL' 1" }}>
+                star
+              </span>
+            )}
+          </div>
 
           <div className="flex flex-wrap gap-y-1 gap-x-4 text-sm font-medium uppercase tracking-wider">
 
@@ -46,6 +54,9 @@ export default function ProfileCard({ onEditClick }: ProfileCardProps) {
               {profile?.mobile || '-'}
             </span>
 
+            <span className={`flex items-center gap-1 px-2 py-1 rounded ${user?.isPremium ? 'bg-[#D4AF37]/10 text-[#D4AF37]' : 'bg-[#10B981]/10 text-[#10B981]'}`}>
+              <span className="font-bold">{user?.isPremium ? 'Premium' : 'Free Tier'}</span>
+            </span>
           </div>
         </div>
 
