@@ -94,10 +94,6 @@ export default function ResultsPanel({
 
             <div className="text-center max-w-lg space-y-5">
 
-              <div className="text-6xl">
-                🎯
-              </div>
-
               <div>
                 <h2 className="font-display font-black text-3xl">
                   Admission Predictor

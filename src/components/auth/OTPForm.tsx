@@ -4,16 +4,19 @@ import { useRef, useState } from "react";
 
 import {
   verifyResetOtp,
+  verifySignupOtp,
   forgotPassword,
 } from "@/lib/api/auth.api";
 
 interface OTPFormProps {
   email: string;
+  type: "signup" | "forgot";
   onSuccess: () => void;
 }
 
 export default function OTPForm({
   email,
+  type,
   onSuccess,
 }: OTPFormProps) {
   const [otp, setOtp] = useState<string[]>(
@@ -75,10 +78,17 @@ export default function OTPForm({
       setLoading(true);
       setError("");
 
-      await verifyResetOtp({
-        email,
-        otp: finalOtp,
-      });
+      if (type === "signup") {
+        await verifySignupOtp({
+          email,
+          otp: finalOtp,
+        });
+      } else {
+        await verifyResetOtp({
+          email,
+          otp: finalOtp,
+        });
+      }
 
       onSuccess();
     } catch (err: any) {

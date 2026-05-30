@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
     EXAM_TYPES,
@@ -10,6 +10,7 @@ import {
     BRANCH_OPTIONS,
     COLLEGE_TYPES,
     COLLEGES_BY_TYPE,
+    BRANCHES_BY_COLLEGE,   // ← NEW: college-level branch map
     CollegeType,
 } from '@/components/predictor/constants';
 
@@ -28,6 +29,23 @@ interface PredictorFormProps {
     onSubmit: (data: PredictorFormData) => void;
 }
 
+// ─── Validation ──────────────────────────────────────────────────────────────
+// Returns the first missing-field message, or null when everything is filled.
+function validateForm(data: PredictorFormData): string | null {
+    if (!data.examType)         return 'Please select your exam.';
+    if (!data.rank.trim())      return 'Please enter your rank.';
+    if (isNaN(Number(data.rank)) || Number(data.rank) <= 0)
+                                return 'Please enter a valid rank (positive number).';
+    if (!data.category)         return 'Please select your category.';
+    if (!data.gender)           return 'Please select your gender.';
+    if (!data.homeState)        return 'Please select your home state.';
+    if (!data.collegeType)      return 'Please select an institute type.';
+    if (!data.preferredCollege) return 'Please select a preferred institute.';
+    if (!data.branch)           return 'Please select a preferred branch.';
+    return null;
+}
+
+// ─── Component ───────────────────────────────────────────────────────────────
 export default function PredictorForm({ onSubmit }: PredictorFormProps) {
     const [formData, setFormData] = useState<PredictorFormData>({
         examType: 'JEE Main',
@@ -35,34 +53,76 @@ export default function PredictorForm({ onSubmit }: PredictorFormProps) {
         category: 'OPEN',
         gender: 'Gender-Neutral',
         homeState: 'Telangana',
-        branch: 'Computer Science and Engineering',
+        branch: '',               // blank until a college is chosen
         collegeType: '',
         preferredCollege: '',
     });
 
+    // ── Toast state ──────────────────────────────────────────────────────────
+    // Holds an error message to show inline; cleared on next valid submission.
+    const [validationError, setValidationError] = useState<string | null>(null);
+
+    // ── Derived: branches available for the selected college ─────────────────
+    // Falls back to the full global list when no college is selected yet, so
+    // the dropdown is never unexpectedly empty.
+    const availableBranches: string[] = useMemo(() => {
+        if (!formData.preferredCollege) return BRANCH_OPTIONS;
+        return BRANCHES_BY_COLLEGE[formData.preferredCollege] ?? BRANCH_OPTIONS;
+    }, [formData.preferredCollege]);
+
+    // ── Handlers ─────────────────────────────────────────────────────────────
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
+
         if (name === 'collegeType') {
-            setFormData(prev => ({ ...prev, collegeType: value as CollegeType, preferredCollege: '' }));
+            // Changing the institute type resets both college and branch so the
+            // dependent dropdowns never show stale values.
+            setFormData(prev => ({
+                ...prev,
+                collegeType: value as CollegeType,
+                preferredCollege: '',
+                branch: '',
+            }));
+        } else if (name === 'preferredCollege') {
+            // Changing the college resets the branch because the branch list
+            // for the new college is completely different.
+            const newBranches = BRANCHES_BY_COLLEGE[value] ?? [];
+            setFormData(prev => ({
+                ...prev,
+                preferredCollege: value,
+                branch: newBranches.length > 0 ? newBranches[0] : '',
+            }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
+
+        // Clear any existing validation error as soon as the user touches a field.
+        if (validationError) setValidationError(null);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const error = validateForm(formData);
+        if (error) {
+            setValidationError(error);
+            return;          // ← stop: do NOT call onSubmit / fire any API
+        }
+        setValidationError(null);
         onSubmit(formData);
     };
 
+    // ── Derived: college list for the chosen institute type ───────────────────
     const collegeList =
         formData.collegeType && formData.collegeType in COLLEGES_BY_TYPE
             ? COLLEGES_BY_TYPE[formData.collegeType as CollegeType]
             : [];
+
     const filteredCollegeTypes =
         formData.examType === 'JEE Advanced'
             ? ['IITs']
             : ['NITs', 'IIITs', 'GFTIs'];
 
+    // ─────────────────────────────────────────────────────────────────────────
     return (
         <div className="w-full lg:w-[400px] xl:w-[450px] h-full flex flex-col bg-white border-r-2 border-[#0A0A0A] z-20 relative overflow-y-auto scrollbar-hide">
 
@@ -92,6 +152,19 @@ export default function PredictorForm({ onSubmit }: PredictorFormProps) {
                             Enter your rank and details to see your admission odds.
                         </p>
                     </div>
+
+                    {/* ── Validation error banner ───────────────────────────── */}
+                    {/* Shown only when the user clicks submit with a missing field */}
+                    {validationError && (
+                        <div className="flex items-start gap-3 bg-red-50 border-2 border-red-400 rounded-[2px] px-4 py-3">
+                            <span className="material-symbols-outlined text-red-500 text-lg mt-0.5 shrink-0">
+                                error
+                            </span>
+                            <p className="text-red-700 text-sm font-medium leading-snug">
+                                {validationError}
+                            </p>
+                        </div>
+                    )}
 
                     {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-5">
@@ -181,23 +254,6 @@ export default function PredictorForm({ onSubmit }: PredictorFormProps) {
                             </select>
                         </div>
 
-                        {/* Branch */}
-                        <div className="space-y-2">
-                            <label className="font-medium uppercase tracking-[1px] text-[12px] text-[#878787] block">
-                                Preferred Branch
-                            </label>
-                            <select
-                                name="branch"
-                                value={formData.branch}
-                                onChange={handleChange}
-                                className="w-full bg-white border-2 border-[#0A0A0A] px-3 py-2 font-medium text-sm rounded-[2px] focus:outline-none focus:ring-0"
-                            >
-                                {BRANCH_OPTIONS.map(branch => (
-                                    <option key={branch} value={branch}>{branch}</option>
-                                ))}
-                            </select>
-                        </div>
-
                         {/* Preferred College — two-step dropdown */}
                         <div className="space-y-3">
                             <label className="font-medium uppercase tracking-[1px] text-[12px] text-[#878787] block">
@@ -217,8 +273,7 @@ export default function PredictorForm({ onSubmit }: PredictorFormProps) {
                                 ))}
                             </select>
 
-
-                            {/* Step 2: College Name */}
+                            {/* Step 2: College Name (shown only after type is chosen) */}
                             {formData.collegeType && (
                                 <select
                                     name="preferredCollege"
@@ -227,7 +282,6 @@ export default function PredictorForm({ onSubmit }: PredictorFormProps) {
                                     className="w-full bg-white border-2 border-[#0A0A0A] font-medium text-sm rounded-[2px] focus:ring-0 focus:border-[#0A0A0A] px-3 py-2"
                                 >
                                     <option value="">— Select College —</option>
-
                                     {collegeList.map(college => (
                                         <option key={college} value={college}>
                                             {college}
@@ -235,6 +289,40 @@ export default function PredictorForm({ onSubmit }: PredictorFormProps) {
                                     ))}
                                 </select>
                             )}
+                        </div>
+
+                        {/* Preferred Branch ─────────────────────────────────────────────
+                             When a college is selected: shows only that college's branches
+                             (sourced from BRANCHES_BY_COLLEGE).
+                             When no college is selected yet: shows the full global list
+                             with a hint label so the user knows to pick a college first. */}
+                        <div className="space-y-2">
+                            <label className="font-medium uppercase tracking-[1px] text-[12px] text-[#878787] block">
+                                Preferred Branch
+                                {formData.preferredCollege && (
+                                    <span className="ml-2 normal-case tracking-normal text-[11px] text-[#059669] font-normal">
+                                        ({availableBranches.length} available at this college)
+                                    </span>
+                                )}
+                            </label>
+                            <select
+                                name="branch"
+                                value={formData.branch}
+                                onChange={handleChange}
+                                className="w-full bg-white border-2 border-[#0A0A0A] px-3 py-2 font-medium text-sm rounded-[2px] focus:outline-none focus:ring-0"
+                            >
+                                {/* Placeholder shown when branch is empty */}
+                                {!formData.branch && (
+                                    <option value="" disabled>
+                                        {formData.preferredCollege
+                                            ? '— Select Branch —'
+                                            : '— Select a college first —'}
+                                    </option>
+                                )}
+                                {availableBranches.map(branch => (
+                                    <option key={branch} value={branch}>{branch}</option>
+                                ))}
+                            </select>
                         </div>
 
                         {/* Submit Button */}
@@ -249,4 +337,4 @@ export default function PredictorForm({ onSubmit }: PredictorFormProps) {
             </div>
         </div>
     );
-} 
+}

@@ -14,8 +14,17 @@ api.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
-
   return config;
 });
+
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err?.response?.status === 429) {
+      console.warn("Rate limited - stopping spam requests");
+    }
+    return Promise.reject(err);
+  }
+);
 
 export default api;

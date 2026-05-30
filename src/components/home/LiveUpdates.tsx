@@ -31,20 +31,7 @@ export default function LiveUpdates() {
           </p>
         </article>
 
-        {/* Help Center */}
-        <div className="p-5 brutal-card bg-[#10B981]/5" style={{ borderStyle: 'dashed', borderColor: 'rgba(16,185,129,0.4)' }}>
-          <div className="flex items-center gap-2 mb-3">
-            <span className="material-symbols-outlined text-[#10B981]" style={{ fontSize: '24px' }}>headset_mic</span>
-            <h4 className="text-base font-bold" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>Need Help?</h4>
-          </div>
-          <p className="text-xs text-[#64748b] mb-4 leading-relaxed">
-            Our expert counselors are available 24/7 for JoSAA queries.
-          </p>
-          <a href="#" className="brutal-button w-full flex items-center justify-center gap-2 text-sm">
-            Chat with Mentor{" "}
-            <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>north_east</span>
-          </a>
-        </div>
+
       </div>
     </div>
   );

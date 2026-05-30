@@ -1,14 +1,17 @@
 "use client";
-import { signupUser } from "@/lib/api/auth.api";
+
+import { sendSignupOtp } from "@/lib/api/auth.api";
 import { useState } from "react";
 
 interface SignupFormProps {
-  onLogin?: () => void;
-  onSuccess?: () => void;
+  onSuccess: (data: any) => void;
 }
 
-export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
-  const [showPassword, setShowPassword] = useState(false);
+export default function SignupForm({
+  onSuccess,
+}: SignupFormProps) {
+  const [showPassword, setShowPassword] =
+    useState(false);
 
   const [signupData, setSignupData] = useState({
     name: "",
@@ -18,9 +21,9 @@ export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
     confirmPassword: "",
   });
 
-  const [errors, setErrors] = useState<Record<string, string>>(
-    {}
-  );
+  const [errors, setErrors] = useState<
+    Record<string, string>
+  >({});
 
   const validateSignup = () => {
     const newErrors: Record<string, string> = {};
@@ -34,7 +37,8 @@ export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
     }
 
     if (!signupData.mobile.trim()) {
-      newErrors.mobile = "Mobile Number is required";
+      newErrors.mobile =
+        "Mobile Number is required";
     }
 
     const passwordRegex =
@@ -50,7 +54,8 @@ export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
     }
 
     if (
-      signupData.password !== signupData.confirmPassword
+      signupData.password !==
+      signupData.confirmPassword
     ) {
       newErrors.confirmPassword =
         "Passwords do not match";
@@ -58,40 +63,39 @@ export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
 
     setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0;
+    return (
+      Object.keys(newErrors).length === 0
+    );
   };
 
   const handleSignup = async () => {
     if (!validateSignup()) return;
 
     try {
-      const data = await signupUser({
+      const data = await sendSignupOtp({
         name: signupData.name,
         email: signupData.email,
         mobile: signupData.mobile,
         password: signupData.password,
       });
 
-      alert(data.message || "Signup successful");
+      alert(data.message);
 
-      if (onSuccess) {
-        onSuccess();
-      } else {
-        window.location.href = "/auth";
-      }
+      onSuccess({
+        name: signupData.name,
+        email: signupData.email,
+        mobile: signupData.mobile,
+        password: signupData.password,
+      });
     } catch (error: any) {
       console.error(error);
 
       alert(
-        error?.response?.data?.message || "Signup failed"
+        error?.response?.data?.message ||
+        "Signup failed"
       );
     }
   };
-
-
-
-
-
 
   return (
     <div className="space-y-6">
@@ -190,7 +194,11 @@ export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
         </label>
 
         <input
-          type={showPassword ? "text" : "password"}
+          type={
+            showPassword
+              ? "text"
+              : "password"
+          }
           placeholder="••••••••"
           value={signupData.password}
           onChange={(e) =>
@@ -204,7 +212,9 @@ export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
 
         <button
           type="button"
-          onClick={() => setShowPassword(!showPassword)}
+          onClick={() =>
+            setShowPassword(!showPassword)
+          }
           className="absolute right-4 top-[42px]"
         >
           {showPassword ? "🙈" : "👁️"}
@@ -217,7 +227,7 @@ export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
         )}
       </div>
 
-      {/* Confirm */}
+      {/* Confirm Password */}
       <div className="space-y-2">
         <label className="text-sm font-semibold">
           Confirm Password
@@ -230,7 +240,8 @@ export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
           onChange={(e) =>
             setSignupData({
               ...signupData,
-              confirmPassword: e.target.value,
+              confirmPassword:
+                e.target.value,
             })
           }
           className="w-full h-14 px-4 rounded-2xl border-2 border-[#D1D5DB] focus:border-[#10B981] outline-none"
@@ -248,7 +259,7 @@ export default function SignupForm({ onLogin, onSuccess }: SignupFormProps) {
         onClick={handleSignup}
         className="w-full h-14 rounded-2xl bg-[#10B981] hover:bg-[#059669] text-white font-bold text-lg transition-all"
       >
-        Create Account
+        Send OTP
       </button>
     </div>
   );

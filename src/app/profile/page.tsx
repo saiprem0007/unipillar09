@@ -1,119 +1,77 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { useAuthStore } from "@/store/authStore";
-import api from "@/lib/axios";
+import ProfileCard from '@/components/profile/ProfileCard';
+import AccountDetails from '@/components/profile/AccountDetails';
+import AccountSettings from '@/components/profile/AccountSettings';
+import Csab from '@/components/profile/Csab';
 
-import ProfileCard from "@/components/profile/ProfileCard";
-import AccountDetails from "@/components/profile/AccountDetails";
-import SavedColleges from "@/components/profile/SavedColleges";
-import AccountSettings from "@/components/profile/AccountSettings";
+import { useProfileStore } from '@/store/profileStore';
 
 export default function ProfilePage() {
-  const [mounted, setMounted] =
-    useState(false);
-
-  const user = useAuthStore(
-    (state) => state.user,
-  );
-
-  const token = useAuthStore(
-    (state) => state.token,
-  );
-
-  const logout = useAuthStore(
-    (state) => state.logout,
-  );
-
-  const setUser = useAuthStore(
-    (state) => state.setUser,
-  );
-
   const router = useRouter();
 
-  // hydration fix
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { fetchAll } = useProfileStore();
 
-  // protect route
+  const [ready, setReady] = useState(false);
+
+  // 🔥 FIX: prevent Strict Mode double fetch (DEV)
+  const hasFetched = useRef(false);
+
+  // 🔐 AUTH CHECK
   useEffect(() => {
-    if (mounted && !token) {
-      router.push("/auth");
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      router.push('/auth');
+      return;
     }
-  }, [token, router, mounted]);
 
-  // fetch profile
+    setReady(true);
+  }, [router]);
+
+  // 📦 FETCH ONLY ONCE (STRICT MODE SAFE)
   useEffect(() => {
-    if (!mounted || !token) return;
+    if (!ready) return;
+    if (hasFetched.current) return;
 
-    const fetchProfile = async () => {
-      try {
-        const response =
-          await api.get(
-            "/user/profile",
-          );
+    hasFetched.current = true;
+    fetchAll();
+  }, [ready]); 
 
-        setUser(response.data.user);
-      } catch (error) {
-        console.log(error);
-
-        logout();
-        router.push("/auth");
-      }
-    };
-
-    fetchProfile();
-  }, [
-    mounted,
-    token,
-    router,
-    setUser,
-    logout,
-  ]);
-
-  // prevent hydration mismatch
-  if (!mounted) {
-    return null;
-  }
-
-  // loading state
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading profile...
-      </div>
-    );
-  }
-
-  const handleLogout = () => {
-    logout();
-    router.push("/auth");
-  };
+  // ⛔ prevent UI flash before auth check
+  if (!ready) return null;
 
   return (
-    <main className="min-h-screen bg-[#f8f6f6] text-[#0A0A0A]">
-      <div className="flex min-h-screen">
-        <div className="flex-1 p-4 md:p-8 lg:p-12 overflow-y-auto">
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
-          <ProfileCard user={user} />
+        body { font-family: 'DM Sans', sans-serif; background-color: #f8f6f6; }
+        h1,h2,h3,h4 { font-family: 'Space+Grotesk', sans-serif; }
+        .brutalist-border { border: 2px solid #0A0A0A; }
+        .brutalist-shadow { box-shadow: 4px 4px 0px #0A0A0A; }
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+      `}</style>
+
+      <div className="min-h-screen bg-[#f8f6f6] text-[#0A0A0A]">
+        <main className="p-4 md:p-8 lg:p-12 overflow-y-auto">
+
+          <ProfileCard />
 
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            <AccountDetails user={user} />
-
-            <SavedColleges />
-
-            <AccountSettings
-              handleLogout={
-                handleLogout
-              }
-            />
+            <AccountDetails />
+            <Csab />
+            <AccountSettings />
           </div>
 
-        </div>
+        </main>
       </div>
-    </main>
+    </>
   );
 }
